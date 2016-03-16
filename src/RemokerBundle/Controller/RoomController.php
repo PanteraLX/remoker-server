@@ -41,6 +41,8 @@ class RoomController extends AbstractRemokerController
         $parameters = json_decode($parameters);
         if(!isset($parameters->name)) {
             throw new Exception("Please set a session name");
+        }else {
+            $this->nameValidator->assert($parameters->name);
         }
         $room = $this->roomService->createRoom($parameters);
         return $this->serializer->serialize($room, 'json');
@@ -56,6 +58,8 @@ class RoomController extends AbstractRemokerController
         $parameters = json_decode($parameters);
         if(!isset($parameters->short_id)) {
             throw new Exception("Please set a room identifier");
+        } else {
+            $this->identifierValidator->assert($parameters->id);
         }
         $room = $this->roomService->getRoom($parameters);
         return $this->serializer->serialize($room, 'json');

@@ -41,6 +41,9 @@ class UserController extends AbstractRemokerController
         $parameters = json_decode($parameters);
         if (!isset($parameters->name) && isset($parameters->is_master)) {
             throw new Exception("Please set a valid user name");
+        } else {
+            $this->nameValidator->assert($parameters->name);
+            $this->booleanValidator->assert($parameters->is_master);
         }
         $user = $this->userService->createUser($parameters);
         return $this->serializer->serialize($user, 'json');
@@ -58,7 +61,8 @@ class UserController extends AbstractRemokerController
             throw new Exception("No UserId found!");
         }
         $user = $this->userService->getUser($parameters);
-        return $this->serializer->serialize($user, 'json');    }
+        return $this->serializer->serialize($user, 'json');
+    }
 
     /**
      * Name of RPC, use for PubSub router

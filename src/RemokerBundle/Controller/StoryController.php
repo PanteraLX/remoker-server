@@ -41,6 +41,8 @@ class StoryController extends AbstractRemokerController
         $parameters = json_decode($parameters);
         if (!isset($parameters->name)) {
             throw new Exception("Please set a task name");
+        } else {
+            $this->nameValidator->assert($parameters->name);
         }
         $story = $this->storyService->createStory($parameters);
         return $this->serializer->serialize($story, 'json');
@@ -56,6 +58,8 @@ class StoryController extends AbstractRemokerController
         $parameters = json_decode($parameters);
         if (!isset($parameters->id)) {
             throw new Exception('No StoryId found!');
+        } else {
+            $this->identifierValidator->assert($parameters->id);
         }
         $story = $this->storyService->getStory($parameters);
         return $this->serializer->serialize($story, 'json');

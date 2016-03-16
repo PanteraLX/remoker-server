@@ -7,6 +7,7 @@ namespace RemokerBundle\Controller;
 use Gos\Bundle\WebSocketBundle\RPC\RpcInterface;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
+use Respect\Validation\Validator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
@@ -25,10 +26,34 @@ abstract class AbstractRemokerController extends Controller implements RpcInterf
     protected $serializer;
 
     /**
+     * @var Validator
+     */
+    protected $nameValidator;
+
+    /**
+     * @var Validator
+     */
+    protected $valueValidator;
+
+    /**
+     * @var Validator
+     */
+    protected $identifierValidator;
+
+    /**
+     * @var Validator
+     */
+    protected $booleanValidator;
+
+    /**
      * SessionController constructor.
      */
     public function __construct()
     {
         $this->serializer = SerializerBuilder::create()->build();
+        $this->nameValidator = Validator::alnum()->length(1,20);
+        $this->valueValidator = Validator::intType();
+        $this->identifierValidator = Validator::alnum()->length(6, 6);
+        $this->booleanValidator = Validator::boolType();
     }
 }
