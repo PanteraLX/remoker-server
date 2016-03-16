@@ -28,6 +28,6 @@ abstract class AbstractRemokerService
     public function __construct()
     {
         $container = RemokerBundle::getContainer();
-        $this->managerRegistry = $container->get('doctrine_mongodb');
+        //$this->managerRegistry = $container->get("doctrine_mongodb");
     }
 }

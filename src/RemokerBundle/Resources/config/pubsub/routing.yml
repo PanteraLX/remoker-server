@@ -1,0 +1,50 @@
+###
+## RPC Routes
+###
+
+remoker_route.rpc.room:
+    channel: roomRPC/{method}
+    handler:
+        callback: "room.rpc"
+    requirements:
+        method:
+            pattern: "[a-z_]+"
+
+remoker_route.rpc.story:
+    channel: storyRPC/{method}
+    handler:
+        callback: "story.rpc"
+    requirements:
+        method:
+            pattern: "[a-z_]+"
+
+remoker_route.rpc.estimation:
+    channel: estimationRPC/{method}
+    handler:
+        callback: "estimation.rpc"
+    requirements:
+        method:
+            pattern: "[a-z_]+"
+
+
+remoker_route.rpc.user:
+    channel: userRPC/{method}
+    handler:
+        callback: "user.rpc"
+    requirements:
+        method:
+            pattern: "[a-z_]+"
+
+###
+## Topic (PubSub) Routes
+###
+
+remoker_route.topic_room:
+    channel: room/{roomID}
+    handler:
+        callback: "room.topic"
+
+remoker_route.topic_story:
+    channel: story/{storyID}
+    handler:
+        callback: "story.topic"

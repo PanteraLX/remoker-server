@@ -38,7 +38,12 @@ class EstimationService extends AbstractRemokerService
     }
 
     /**
-     * @param $parameters
+     * Creates and persists a new Estimation object.
+     *
+     * In the new Estimation object is an reference to creating developer. This object itself will be referenced in the
+     * corresponding Story object
+     *
+     * @param object $parameters RP-Call parameters as Object
      * @return Estimation
      */
     public function createEstimation($parameters)
@@ -50,8 +55,8 @@ class EstimationService extends AbstractRemokerService
             ->setValue($parameters->estimation->value)
             ->setCreatedAt();
 
-        $task = $this->storyService->getStory($parameters);
-        $task->addEstimation($estimation);
+        $story = $this->storyService->getStory($parameters);
+        $story->addEstimation($estimation);
 
         $this->managerRegistry->getManager()->persist($estimation);
         $this->managerRegistry->getManager()->flush();
@@ -60,19 +65,19 @@ class EstimationService extends AbstractRemokerService
     }
 
     /**
-     * @param $parameters
+     * @param object $parameters RP-Call parameters as Object
      * @return Estimation
      * @throws DocumentNotFoundException
      */
     public function getEstimation($parameters)
     {
         $estimation = $this->managerRegistry
-            ->getRepository('RemokerBundle:Estimation')
-            ->find($parameters->id);
+            ->getRepository("RemokerBundle:Estimation")
+            ->find($parameters->estimation->id);
 
         if (!$estimation) {
             throw new DocumentNotFoundException(
-                sprintf('The "Estimation" document with identifier %s could not be found.', $parameters->id)
+                sprintf("The 'Estimation' document with identifier %s could not be found.", $parameters->estimation->id)
             );
         }
 

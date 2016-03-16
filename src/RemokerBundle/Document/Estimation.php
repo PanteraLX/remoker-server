@@ -52,7 +52,7 @@ class Estimation
     }
 
     /**
-     * @param User $developer
+     * @param User $developer User Object
      * @return Estimation
      */
     public function setDeveloper(User $developer)
@@ -62,7 +62,7 @@ class Estimation
     }
 
     /**
-     * @param integer $value
+     * @param integer $value Estimation value
      * @return Estimation
      */
     public function setValue($value)

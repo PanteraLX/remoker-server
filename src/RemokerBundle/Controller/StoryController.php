@@ -5,6 +5,8 @@
 namespace RemokerBundle\Controller;
 
 use Exception;
+use Gos\Bundle\WebSocketBundle\Router\WampRequest;
+use Ratchet\Wamp\WampConnection;
 use RemokerBundle\Service\StoryService;
 
 /**
@@ -32,46 +34,48 @@ class StoryController extends AbstractRemokerController
     }
 
     /**
-     * @param $parameters
+     * @param WampConnection $connection WampConnection
+     * @param WampRequest    $request    WampRequest
+     * @param string         $parameters RP-Call parameters as JSON string
      * @return string
      * @throws Exception
      */
-    public function createStoryAction($parameters)
+    public function createStoryAction(WampConnection $connection, WampRequest $request, $parameters)
     {
-        $parameters = json_decode($parameters);
-        if (!isset($parameters->name)) {
-            throw new Exception("Please set a task name");
+        $parameters = json_decode($parameters[0]);
+        if (!isset($parameters->story->name)) {
+            throw new Exception("Please set a story name");
         } else {
-            $this->nameValidator->assert($parameters->name);
+            $this->nameValidator->assert($parameters->story->name);
         }
         $story = $this->storyService->createStory($parameters);
-        return $this->serializer->serialize($story, 'json');
+        return $this->serializer->serialize($story, "json");
     }
 
     /**
-     * @param $parameters
-     * @return mixed|string
+     * @param WampConnection $connection WampConnection
+     * @param WampRequest    $request    WampRequest
+     * @param string         $parameters RP-Call parameters as JSON string
+     * @return string
      * @throws Exception
      */
-    public function getStoryAction($parameters)
+    public function getStoryAction(WampConnection $connection, WampRequest $request, $parameters)
     {
-        $parameters = json_decode($parameters);
-        if (!isset($parameters->id)) {
-            throw new Exception('No StoryId found!');
+        $parameters = json_decode($parameters[0]);
+        if (!isset($parameters->story->id)) {
+            throw new Exception("No StoryId found!");
         } else {
-            $this->identifierValidator->assert($parameters->id);
+            $this->identifierValidator->assert($parameters->story->id);
         }
         $story = $this->storyService->getStory($parameters);
-        return $this->serializer->serialize($story, 'json');
+        return $this->serializer->serialize($story, "json");
     }
 
     /**
-     * Name of RPC, use for PubSub router
-     *
      * @return string
      */
     public function getName()
     {
-        return 'story.rpc';
+        return "story.rpc";
     }
 }

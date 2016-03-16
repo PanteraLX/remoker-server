@@ -5,6 +5,8 @@
 namespace RemokerBundle\Controller;
 
 use Exception;
+use Gos\Bundle\WebSocketBundle\Router\WampRequest;
+use Ratchet\Wamp\WampConnection;
 use RemokerBundle\Service\RoomService;
 
 /**
@@ -32,46 +34,48 @@ class RoomController extends AbstractRemokerController
     }
 
     /**
-     * @param $parameters
+     * @param WampConnection $connection WampConnection
+     * @param WampRequest    $request    WampRequest
+     * @param string         $parameters RP-Call parameters as JSON string
      * @return string
      * @throws Exception
      */
-    public function createRoomAction($parameters)
+    public function createRoomAction(WampConnection $connection, WampRequest $request, $parameters)
     {
-        $parameters = json_decode($parameters);
-        if(!isset($parameters->name)) {
-            throw new Exception("Please set a session name");
-        }else {
-            $this->nameValidator->assert($parameters->name);
+        $parameters = json_decode($parameters[0]);
+        if (!isset($parameters->room->name)) {
+            throw new Exception("Please set a room name");
+        } else {
+            $this->nameValidator->assert($parameters->room->name);
         }
         $room = $this->roomService->createRoom($parameters);
-        return $this->serializer->serialize($room, 'json');
+        return $this->serializer->serialize($room, "json");
     }
 
     /**
-     * @param $parameters
+     * @param WampConnection $connection WampConnection
+     * @param WampRequest    $request    WampRequest
+     * @param string         $parameters RP-Call parameters as JSON string
      * @return string
      * @throws Exception
      */
-    public function getRoomAction($parameters)
+    public function getRoomAction(WampConnection $connection, WampRequest $request, $parameters)
     {
-        $parameters = json_decode($parameters);
-        if(!isset($parameters->short_id)) {
+        $parameters = json_decode($parameters[0]);
+        if (!isset($parameters->room->short_id)) {
             throw new Exception("Please set a room identifier");
         } else {
-            $this->identifierValidator->assert($parameters->id);
+            $this->identifierValidator->assert($parameters->room->short_id);
         }
         $room = $this->roomService->getRoom($parameters);
-        return $this->serializer->serialize($room, 'json');
+        return $this->serializer->serialize($room, "json");
     }
 
     /**
-     * Name of RPC, use for PubSub router
-     *
      * @return string
      */
     public function getName()
     {
-        return 'room.rpc';
+        return "room.rpc";
     }
 }

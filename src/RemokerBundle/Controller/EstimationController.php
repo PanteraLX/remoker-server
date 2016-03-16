@@ -5,6 +5,8 @@
 namespace RemokerBundle\Controller;
 
 use Exception;
+use Gos\Bundle\WebSocketBundle\Router\WampRequest;
+use Ratchet\Wamp\WampConnection;
 use RemokerBundle\Service\EstimationService;
 
 /**
@@ -32,47 +34,48 @@ class EstimationController extends AbstractRemokerController
     }
 
     /**
-     * @param $parameters
+     * @param WampConnection $connection WampConnection
+     * @param WampRequest    $request    WampRequest
+     * @param string         $parameters RP-Call parameters as JSON string
      * @return string
      * @throws Exception
      */
-    public function createEstimationAction($parameters)
+    public function createEstimationAction(WampConnection $connection, WampRequest $request, $parameters)
     {
-        $parameters = json_decode($parameters);
-        if (!isset($parameters->value)) {
+        $parameters = json_decode($parameters[0]);
+        if (!isset($parameters->estimation->value)) {
             throw new Exception("Please set a value for this estimation");
         } else {
-            $this->valueValidator->assert($parameters->value);
+            $this->valueValidator->assert($parameters->estimation->value);
         }
-
         $estimation = $this->estimationService->createEstimation($parameters);
-        return $this->serializer->serialize($estimation, 'json');
+        return $this->serializer->serialize($estimation, "json");
     }
 
     /**
-     * @param $parameters
+     * @param WampConnection $connection WampConnection
+     * @param WampRequest    $request    WampRequest
+     * @param string         $parameters RP-Call parameters as JSON string
      * @return string
      * @throws Exception
      */
-    public function getEstimationAction($parameters)
+    public function getEstimationAction(WampConnection $connection, WampRequest $request, $parameters)
     {
-        $parameters = json_decode($parameters);
-        if (!isset($parameters->id)) {
+        $parameters = json_decode($parameters[0]);
+        if (!isset($parameters->estimation->id)) {
             throw new Exception("No EstimationId found");
         } else {
-            $this->identifierValidator->assert($parameters->id);
+            $this->identifierValidator->assert($parameters->estimation->id);
         }
         $estimation = $this->estimationService->getEstimation($parameters);
-        return $this->serializer->serialize($estimation, 'json');
+        return $this->serializer->serialize($estimation, "json");
     }
 
     /**
-     * Name of RPC, use for PubSub router
-     *
      * @return string
      */
     public function getName()
     {
-        return 'estimation.rpc';
+        return "estimation.rpc";
     }
 }

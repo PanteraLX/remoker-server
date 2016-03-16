@@ -46,12 +46,12 @@ abstract class AbstractRemokerController extends Controller implements RpcInterf
     protected $booleanValidator;
 
     /**
-     * SessionController constructor.
+     * AbstractRemokerController constructor.
      */
     public function __construct()
     {
         $this->serializer = SerializerBuilder::create()->build();
-        $this->nameValidator = Validator::alnum()->length(1,20);
+        $this->nameValidator = Validator::alnum()->length(1, 20);
         $this->valueValidator = Validator::intType();
         $this->identifierValidator = Validator::alnum()->length(6, 6);
         $this->booleanValidator = Validator::boolType();

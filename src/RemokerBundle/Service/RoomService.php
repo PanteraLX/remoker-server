@@ -32,7 +32,10 @@ class RoomService extends AbstractRemokerService
     }
 
     /**
-     * @param $parameters
+     * Creates and persists a new Story.
+     * The user, who creates a room is automatically the master user
+     *
+     * @param object $parameters RP-Call parameters as Object
      * @return Room
      */
     public function createRoom($parameters)
@@ -40,9 +43,9 @@ class RoomService extends AbstractRemokerService
         $master = $this->userService->getUser($parameters);
 
         $room = new Room();
-        $room->setName($parameters->name)
+        $room->setName($parameters->room->name)
             ->setMaster($master)
-            ->setSchema($parameters->schema)
+            ->setSchema($parameters->room->schema)
             ->setShortId()
             ->setCreatedAt();
 
@@ -53,19 +56,19 @@ class RoomService extends AbstractRemokerService
     }
 
     /**
-     * @param $parameters
+     * @param object $parameters RP-Call parameters as Object
      * @return Room
      * @throws DocumentNotFoundException
      */
     public function getRoom($parameters)
     {
         $room = $this->managerRegistry
-            ->getRepository('RemokerBundle:Room')
-            ->findOneByShortId($parameters->shortId);
+            ->getRepository("RemokerBundle:Room")
+            ->findOneByShortId($parameters->room->short_id);
 
         if (!$room) {
             throw new DocumentNotFoundException(
-                sprintf('The "Room" document with identifier %s could not be found.', $parameters->shortId)
+                sprintf("The 'Room' document with identifier %s could not be found.", $parameters->room->short_id)
             );
         }
 

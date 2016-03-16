@@ -3,6 +3,7 @@
  * UserService.php
  */
 namespace RemokerBundle\Service;
+
 use Doctrine\ODM\MongoDB\DocumentNotFoundException;
 use RemokerBundle\Document\User;
 
@@ -16,7 +17,9 @@ use RemokerBundle\Document\User;
 class UserService extends AbstractRemokerService
 {
     /**
-     * @param $parameters
+     * Creates and persists a new User object
+     *
+     * @param object $parameters RP-Call parameters as Object
      * @return User
      */
     public function createUser($parameters)
@@ -34,19 +37,19 @@ class UserService extends AbstractRemokerService
     }
 
     /**
-     * @param $parameters
+     * @param object $parameters RP-Call parameters as Object
      * @return User
      * @throws DocumentNotFoundException
      */
     public function getUser($parameters)
     {
         $user = $this->managerRegistry
-            ->getRepository('RemokerBundle:User')
-            ->find($parameters->id);
+            ->getRepository("RemokerBundle:User")
+            ->find($parameters->user->id);
 
         if (!$user) {
             throw new DocumentNotFoundException(
-                sprintf('The "User" document with identifier %s could not be found.', $parameters->id)
+                sprintf("The 'User' document with identifier %s could not be found.", $parameters->user->id)
             );
         }
 

@@ -1,0 +1,36 @@
+services:
+    ###
+    ## RPC Services
+    ###
+    remoker.rpc.room:
+        class: RemokerBundle\Controller\RoomController
+        tags:
+            - { name: gos_web_socket.rpc }
+
+    remoker.rpc.story:
+        class: RemokerBundle\Controller\StoryController
+        tags:
+            - { name: gos_web_socket.rpc }
+
+    remoker.rpc.estimation:
+        class: RemokerBundle\Controller\EstimationController
+        tags:
+            - { name: gos_web_socket.rpc }
+
+    remoker.rpc.user:
+        class: RemokerBundle\Controller\UserController
+        tags:
+            - { name: gos_web_socket.rpc }
+
+    ###
+    ## Topic (PubSub) Services
+    ###
+    remoker.topic.room:
+        class: RemokerBundle\Topic\RoomTopic
+        tags:
+            - { name: gos_web_socket.topic }
+
+    remoker.topic.story:
+        class: RemokerBundle\Topic\StoryTopic
+        tags:
+            - { name: gos_web_socket.topic }

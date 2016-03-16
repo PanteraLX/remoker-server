@@ -5,6 +5,8 @@
 namespace RemokerBundle\Controller;
 
 use Exception;
+use Gos\Bundle\WebSocketBundle\Router\WampRequest;
+use Ratchet\Wamp\WampConnection;
 use RemokerBundle\Service\UserService;
 
 /**
@@ -32,45 +34,48 @@ class UserController extends AbstractRemokerController
     }
 
     /**
-     * @param $parameters
+     * @param WampConnection $connection WampConnection
+     * @param WampRequest    $request    WampRequest
+     * @param string         $parameters RP-Call parameters as JSON string
      * @return string
      * @throws Exception
      */
-    public function createUserAction($parameters)
+    public function createUserAction(WampConnection $connection, WampRequest $request, $parameters)
     {
-        $parameters = json_decode($parameters);
-        if (!isset($parameters->name) && isset($parameters->is_master)) {
+        var_dump($parameters);
+        $parameters = json_decode($parameters[0]);
+        if (!isset($parameters->user->name) || !isset($parameters->user->is_master)) {
             throw new Exception("Please set a valid user name");
         } else {
-            $this->nameValidator->assert($parameters->name);
-            $this->booleanValidator->assert($parameters->is_master);
+            $this->nameValidator->assert($parameters->user->name);
+            $this->booleanValidator->assert($parameters->user->is_master);
         }
         $user = $this->userService->createUser($parameters);
-        return $this->serializer->serialize($user, 'json');
+        return $this->serializer->serialize($user, "json");
     }
 
     /**
-     * @param $parameters
+     * @param WampConnection $connection WampConnection
+     * @param WampRequest    $request    WampRequest
+     * @param string         $parameters RP-Call parameters as JSON string
      * @return string
      * @throws Exception
      */
-    public function getUserAction($parameters)
+    public function getUserAction(WampConnection $connection, WampRequest $request, $parameters)
     {
-        $parameters = json_decode($parameters);
-        if (!isset($parameters->id)) {
+        $parameters = json_decode($parameters[0]);
+        if (!isset($parameters->user->id)) {
             throw new Exception("No UserId found!");
         }
         $user = $this->userService->getUser($parameters);
-        return $this->serializer->serialize($user, 'json');
+        return $this->serializer->serialize($user, "json");
     }
 
     /**
-     * Name of RPC, use for PubSub router
-     *
      * @return string
      */
     public function getName()
     {
-        return 'user.rpc';
+        return "user.rpc";
     }
 }
