@@ -4,6 +4,8 @@
  */
 namespace RemokerBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
 /**
  * Class Story
  *
@@ -11,36 +13,50 @@ namespace RemokerBundle\Document;
  * @author  Samuel Heinzmann <samuel.heinzman@swisscom.com>
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
+ *
+ * @MongoDB\Document
  */
 class Story
 {
     /**
      * @var string
+     *
+     * @MongoDB\Id
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @MongoDB\String
      */
     private $shortId;
 
     /**
      * @var string
+     *
+     * @MongoDB\String
      */
     private $name;
 
     /**
      * @var integer
+     *
+     * @MongoDB\Integer
      */
     private $result;
 
     /**
      * @var Estimation[]
+     *
+     * @MongoDB\String
      */
     private $estimations;
 
     /**
      * @var \DateTime
+     *
+     * @MongoDB\Date
      */
     private $createdAt;
 

@@ -4,6 +4,8 @@
  */
 namespace RemokerBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
 /**
  * Class Estimation
  *
@@ -11,11 +13,15 @@ namespace RemokerBundle\Document;
  * @author  Samuel Heinzmann <samuel.heinzman@swisscom.com>
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
+ *
+ * @MongoDB\Document
  */
 class Estimation
 {
     /**
      * @var string
+     *
+     * @MongoDB\Id
      */
     private $id;
 

@@ -4,47 +4,65 @@
  */
 namespace RemokerBundle\Document;
 
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
 /**
  * Class Room
  * @package RemokerBundle\Document
  * @author  Samuel Heinzmann <samuel.heinzman@swisscom.com>
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
+ *
+ * @MongoDB\Document
  */
 class Room
 {
     /**
      * @var string
+     *
+     * @MongoDB\Id
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @MongoDB\String
      */
     private $shortId;
 
     /**
      * @var string
+     *
+     * @MongoDB\String
      */
     private $name;
 
     /**
      * @var string
+     *
+     * @MongoDB\String
      */
     private $schema;
 
     /**
      * @var User
+     *
+     * @MongoDB\String
      */
     private $master;
 
     /**
      * @var Story[]
+     *
+     * @MongoDB\String
      */
     private $stories;
 
     /**
      * @var \DateTime
+     *
+     * @MongoDB\Date
      */
     private $createdAt;
 
