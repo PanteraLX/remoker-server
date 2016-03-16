@@ -5,6 +5,7 @@
 namespace RemokerBundle\Controller;
 
 use RemokerBundle\Document\Estimation;
+use RemokerBundle\Service\EstimationService;
 
 /**
  * Class EstimationController
@@ -19,20 +20,14 @@ class EstimationController extends RemokerController
     /**
      * @var UserController
      */
-    private $userController;
-
-    /**
-     * @var StoryController
-     */
-    private $storyController;
+    private $estimationService;
 
     /**
      * EstimationController constructor
      */
     public function __construct() {
         parent::__construct();
-        $this->userController = new UserController();
-        $this->storyController = new StoryController();
+        $this->estimationService = new EstimationService();
     }
 
     /**
@@ -41,16 +36,8 @@ class EstimationController extends RemokerController
      */
     public function createEstimationAction($parameters)
     {
-        $developer = $this->userController->getUserAction($parameters);
-
-        $estimation = new Estimation();
-        $estimation->setValue($parameters->value)->setDeveloper($developer);
-
-        $this->storyController->addEstimation($estimation);
-
-        $this->documentManager->persist($estimation);
-        $this->documentManager->flush();
-
+        $parameters = json_decode($parameters);
+        $estimation = $this->estimationService->createEstimation($parameters);
         return $estimation;
     }
 }
