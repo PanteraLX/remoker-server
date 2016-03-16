@@ -5,6 +5,8 @@
 namespace RemokerBundle\Controller;
 
 use Gos\Bundle\WebSocketBundle\RPC\RpcInterface;
+use JMS\Serializer\Serializer;
+use JMS\Serializer\SerializerBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
@@ -17,4 +19,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 abstract class AbstractRemokerController extends Controller implements RpcInterface
 {
+    /**
+     * @var Serializer
+     */
+    protected $serializer;
+
+    /**
+     * SessionController constructor.
+     */
+    public function __construct()
+    {
+        $this->serializer = SerializerBuilder::create()->build();
+    }
 }

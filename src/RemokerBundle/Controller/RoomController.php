@@ -4,8 +4,7 @@
  */
 namespace RemokerBundle\Controller;
 
-use RemokerBundle\Document\Room;
-use RemokerBundle\Document\User;
+use Exception;
 use RemokerBundle\Service\RoomService;
 
 /**
@@ -28,27 +27,38 @@ class RoomController extends AbstractRemokerController
      */
     public function __construct()
     {
+        parent::__construct();
         $this->roomService = new RoomService();
     }
 
     /**
      * @param $parameters
-     * @return Room
+     * @return string
+     * @throws Exception
      */
     public function createRoomAction($parameters)
     {
         $parameters = json_decode($parameters);
-        return $this->roomService->createRoom($parameters);
+        if(!isset($parameters->name)) {
+            throw new Exception("Please set a session name");
+        }
+        $room = $this->roomService->createRoom($parameters);
+        return $this->serializer->serialize($room, 'json');
     }
 
     /**
      * @param $parameters
-     * @return Room
+     * @return string
+     * @throws Exception
      */
-    public function getUserAction($parameters)
+    public function getRoomAction($parameters)
     {
         $parameters = json_decode($parameters);
-        return $this->roomService->getRoom($parameters);
+        if(!isset($parameters->short_id)) {
+            throw new Exception("Please set a room identifier");
+        }
+        $room = $this->roomService->getRoom($parameters);
+        return $this->serializer->serialize($room, 'json');
     }
 
     /**

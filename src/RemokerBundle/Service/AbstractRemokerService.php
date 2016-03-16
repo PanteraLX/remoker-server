@@ -5,6 +5,7 @@
 namespace RemokerBundle\Service;
 
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
+use RemokerBundle\RemokerBundle;
 
 /**
  * Class RemokerService
@@ -26,6 +27,7 @@ abstract class AbstractRemokerService
      */
     public function __construct()
     {
-        $this->managerRegistry = $this->container->get('doctrine_mongodb');
+        $container = RemokerBundle::getContainer();
+        $this->managerRegistry = $container->get('doctrine_mongodb');
     }
 }

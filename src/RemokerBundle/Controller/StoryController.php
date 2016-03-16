@@ -4,7 +4,7 @@
  */
 namespace RemokerBundle\Controller;
 
-use RemokerBundle\Document\Story;
+use Exception;
 use RemokerBundle\Service\StoryService;
 
 /**
@@ -27,27 +27,38 @@ class StoryController extends AbstractRemokerController
      */
     public function __construct()
     {
+        parent::__construct();
         $this->storyService = new StoryService();
     }
 
     /**
      * @param $parameters
-     * @return Story
+     * @return string
+     * @throws Exception
      */
     public function createStoryAction($parameters)
     {
         $parameters = json_decode($parameters);
-        return $this->storyService->createUserAction($parameters);
+        if (!isset($parameters->name)) {
+            throw new Exception("Please set a task name");
+        }
+        $story = $this->storyService->createStory($parameters);
+        return $this->serializer->serialize($story, 'json');
     }
 
     /**
      * @param $parameters
-     * @return Story
+     * @return mixed|string
+     * @throws Exception
      */
     public function getStoryAction($parameters)
     {
         $parameters = json_decode($parameters);
-        return $this->storyService->createStory($parameters);
+        if (!isset($parameters->id)) {
+            throw new Exception('No StoryId found!');
+        }
+        $story = $this->storyService->getStory($parameters);
+        return $this->serializer->serialize($story, 'json');
     }
 
     /**

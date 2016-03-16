@@ -3,6 +3,7 @@
  * StoryService.php
  */
 namespace RemokerBundle\Service;
+use Doctrine\ODM\MongoDB\DocumentNotFoundException;
 use RemokerBundle\Document\Story;
 
 /**
@@ -45,11 +46,20 @@ class StoryService extends AbstractRemokerService
     /**
      * @param $parameters
      * @return Story
+     * @throws DocumentNotFoundException
      */
     public function getStory($parameters)
     {
-        return $this->managerRegistry
+        $story = $this->managerRegistry
             ->getRepository('RemokerBundle:Story')
             ->find($parameters->id);
+
+        if (!$story) {
+            throw new DocumentNotFoundException(
+                sprintf('The "Story" document with identifier %s could not be found.', $parameters->id)
+            );
+        }
+
+        return $story;
     }
 }

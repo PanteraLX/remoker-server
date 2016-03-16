@@ -4,7 +4,7 @@
  */
 namespace RemokerBundle\Controller;
 
-use RemokerBundle\Document\User;
+use Exception;
 use RemokerBundle\Service\UserService;
 
 /**
@@ -27,28 +27,38 @@ class UserController extends AbstractRemokerController
      */
     public function __construct()
     {
+        parent::__construct();
         $this->userService = new UserService();
     }
 
     /**
      * @param $parameters
-     * @return User
+     * @return string
+     * @throws Exception
      */
     public function createUserAction($parameters)
     {
         $parameters = json_decode($parameters);
-        return $this->userService->createUser($parameters);
+        if (!isset($parameters->name) && isset($parameters->is_master)) {
+            throw new Exception("Please set a valid user name");
+        }
+        $user = $this->userService->createUser($parameters);
+        return $this->serializer->serialize($user, 'json');
     }
 
     /**
      * @param $parameters
-     * @return mixed|User
+     * @return string
+     * @throws Exception
      */
     public function getUserAction($parameters)
     {
         $parameters = json_decode($parameters);
-        return $this->userService->getUser($parameters);
-    }
+        if (!isset($parameters->id)) {
+            throw new Exception("No UserId found!");
+        }
+        $user = $this->userService->getUser($parameters);
+        return $this->serializer->serialize($user, 'json');    }
 
     /**
      * Name of RPC, use for PubSub router
