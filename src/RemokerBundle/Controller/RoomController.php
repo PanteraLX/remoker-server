@@ -6,6 +6,7 @@ namespace RemokerBundle\Controller;
 
 use RemokerBundle\Document\Room;
 use RemokerBundle\Document\User;
+use RemokerBundle\Service\RoomService;
 
 /**
  * Class RoomController
@@ -17,16 +18,34 @@ use RemokerBundle\Document\User;
  */
 class RoomController extends RemokerController
 {
+    /**
+     * @var UserController
+     */
+    private $roomService;
 
-    public function createRoomAction($parameters)
+    /**
+     * EstimationController constructor
+     */
+    public function __construct()
     {
-        $user = new Room();
-        $user->setName($parameters->name)
-            ->setMaster(new User());
-
-        return $user;
+        $this->roomService = new RoomService();
     }
 
+    /**
+     * @param $parameters
+     * @return Room
+     */
+    public function createRoomAction($parameters)
+    {
+        $parameters = json_decode($parameters);
+        $room = $this->roomService->createRoom($parameters);
+        return $room;
+    }
+
+    /**
+     * @param $parameters
+     * @return void
+     */
     public function getUserAction($parameters)
     {
 

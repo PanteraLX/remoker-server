@@ -5,6 +5,7 @@
 namespace RemokerBundle\Controller;
 
 use RemokerBundle\Document\User;
+use RemokerBundle\Service\UserService;
 
 /**
  * Class UserController
@@ -16,15 +17,34 @@ use RemokerBundle\Document\User;
  */
 class UserController extends RemokerController
 {
+    /**
+     * @var UserController
+     */
+    private $userService;
+
+    /**
+     * EstimationController constructor
+     */
+    public function __construct()
+    {
+        $this->userService = new UserService();
+    }
+
+    /**
+     * @param $parameters
+     * @return User
+     */
     public function createUserAction($parameters)
     {
-        $user = new User();
-        $user->setName($parameters->name)
-            ->setIsMaster($parameters->isMaster);
-
+        $parameters = json_decode($parameters);
+        $user= $this->userService->createUser($parameters);
         return $user;
     }
 
+    /**
+     * @param $parameters
+     * @return void
+     */
     public function getUserAction($parameters)
     {
 

@@ -14,23 +14,23 @@ use RemokerBundle\Document\Estimation;
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-class EstimationService
+class EstimationService extends RemokerService
 {
-    private $documentManager;
-
-    public function createEstimation($parameters) {
-
+    /**
+     * @param $parameters
+     * @return Estimation
+     */
+    public function createEstimation($parameters)
+    {
         $developer = $this->userService->getUser($parameters);
 
         $estimation = new Estimation();
         $estimation->setDeveloper($developer)
             ->setValue($parameters->estimation->value);
 
-        $this->documentManager->persist($estimation);
-        $this->documentManager->flush();
+        $this->managerRegistry->getManager()->persist($estimation);
+        $this->managerRegistry->getManager()->flush();
 
         return $estimation;
     }
-
-
 }

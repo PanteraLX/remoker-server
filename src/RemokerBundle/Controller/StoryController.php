@@ -5,6 +5,7 @@
 namespace RemokerBundle\Controller;
 
 use RemokerBundle\Document\Story;
+use RemokerBundle\Service\StoryService;
 
 /**
  * Class StoryController
@@ -16,15 +17,33 @@ use RemokerBundle\Document\Story;
  */
 class StoryController extends RemokerController
 {
+    /**
+     * @var UserController
+     */
+    private $storyService;
 
+    /**
+     * EstimationController constructor
+     */
+    public function __construct()
+    {
+        $this->storyService = new StoryService();
+    }
+
+    /**
+     * @param $parameters
+     * @return \RemokerBundle\Document\User
+     */
     public function createStoryAction($parameters)
     {
-        $story = new Story();
-        $story->setName($parameters->name);
-
+        $parameters = json_decode($parameters);
+        $story = $this->storyService->createUserAction($parameters);
         return $story;
     }
 
+    /**
+     * @return void
+     */
     public function getStoryAction()
     {
 

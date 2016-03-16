@@ -16,7 +16,4 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 class RemokerController extends Controller
 {
-    public function __construct()
-    {
-    }
 }

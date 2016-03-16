@@ -27,7 +27,6 @@ class EstimationController extends RemokerController
      */
     public function __construct()
     {
-        parent::__construct();
         $this->estimationService = new EstimationService();
     }
 
