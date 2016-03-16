@@ -112,5 +112,4 @@ class Estimation
         $this->createdAt = $createdAt;
         return $this;
     }
-
 }

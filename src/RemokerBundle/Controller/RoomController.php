@@ -9,6 +9,7 @@ use RemokerBundle\Document\User;
 
 /**
  * Class RoomController
+ *
  * @package RemokerBundle\Controller
  * @author  Samuel Heinzmann <samuel.heinzman@swisscom.com>
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -17,7 +18,8 @@ use RemokerBundle\Document\User;
 class RoomController extends RemokerController
 {
 
-    public function createRoomAction($parameters) {
+    public function createRoomAction($parameters)
+    {
         $user = new Room();
         $user->setName($parameters->name)
             ->setMaster(new User());
@@ -25,7 +27,8 @@ class RoomController extends RemokerController
         return $user;
     }
 
-    public function getUserAction($parameters) {
+    public function getUserAction($parameters)
+    {
 
     }
 }

@@ -33,7 +33,9 @@
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
-        "phpunit/phpunit": "^4.8"
+        "phpunit/phpunit": "^4.8",
+        "squizlabs/php_codesniffer": "~2.2",
+        "libgraviton/codesniffer": "~1.3"
     },
     "scripts": {
         "post-root-package-install": [
@@ -56,6 +58,12 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+        ],
+        "check": [
+            "./bin/phpcs --config-set installed_paths ../../libgraviton/codesniffer/CodeSniffer/Standards",
+            "./bin/phpcs --standard=PSR1 --ignore='*.css' --ignore='web/' --ignore='*.js' src/ web/",
+            "./bin/phpcs --standard=PSR2 --ignore='*.css' --ignore='web/' --ignore='*.js' src/ web/",
+            "./bin/phpcs --standard=ENTB --ignore='*.css' --ignore='web/' --ignore='*.js' src/ web/"
         ]
     },
     "config": {

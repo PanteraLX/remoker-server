@@ -3,6 +3,7 @@
  * StoryController.php
  */
 namespace RemokerBundle\Controller;
+
 use RemokerBundle\Document\Story;
 
 /**
@@ -16,14 +17,16 @@ use RemokerBundle\Document\Story;
 class StoryController extends RemokerController
 {
 
-    public function createStoryAction($parameters) {
+    public function createStoryAction($parameters)
+    {
         $story = new Story();
         $story->setName($parameters->name);
 
         return $story;
     }
 
-    public function getStoryAction() {
+    public function getStoryAction()
+    {
 
     }
 }

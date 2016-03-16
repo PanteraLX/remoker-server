@@ -143,5 +143,4 @@ class User
         $this->createdAt = $createdAt;
         return $this;
     }
-
 }

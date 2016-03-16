@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class RemokerController
+ *
  * @package RemokerBundle\Controller
  * @author  Samuel Heinzmann <samuel.heinzman@swisscom.com>
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -15,10 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 class RemokerController extends Controller
 {
-    protected $documentManager;
-
-    public function __construct() {
-        $this->documentManager = $this->get('doctrine_mongodb')->getManager();
+    public function __construct()
+    {
     }
-
 }

@@ -168,5 +168,4 @@ class Story
         $this->createdAt = $createdAt;
         return $this;
     }
-
 }
