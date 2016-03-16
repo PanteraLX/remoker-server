@@ -5,8 +5,6 @@
 namespace RemokerBundle\Service;
 
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
-use RemokerBundle\RemokerBundle;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class RemokerService
@@ -16,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-class RemokerService
+abstract class AbstractRemokerService
 {
     /**
      * @var ManagerRegistry
@@ -28,6 +26,6 @@ class RemokerService
      */
     public function __construct()
     {
-        $this->managerRegistry = $this->get('doctrine_mongodb');
+        $this->managerRegistry = $this->container->get('doctrine_mongodb');
     }
 }

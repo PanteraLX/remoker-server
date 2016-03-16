@@ -15,7 +15,7 @@ use RemokerBundle\Service\UserService;
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-class UserController extends RemokerController
+class UserController extends AbstractRemokerController
 {
     /**
      * @var UserController
@@ -37,16 +37,26 @@ class UserController extends RemokerController
     public function createUserAction($parameters)
     {
         $parameters = json_decode($parameters);
-        $user= $this->userService->createUser($parameters);
-        return $user;
+        return $this->userService->createUser($parameters);
     }
 
     /**
      * @param $parameters
-     * @return void
+     * @return mixed|User
      */
     public function getUserAction($parameters)
     {
+        $parameters = json_decode($parameters);
+        return $this->userService->getUser($parameters);
+    }
 
+    /**
+     * Name of RPC, use for PubSub router
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'user.rpc';
     }
 }

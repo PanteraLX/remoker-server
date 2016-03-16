@@ -16,7 +16,7 @@ use RemokerBundle\Service\RoomService;
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-class RoomController extends RemokerController
+class RoomController extends AbstractRemokerController
 {
     /**
      * @var UserController
@@ -38,16 +38,26 @@ class RoomController extends RemokerController
     public function createRoomAction($parameters)
     {
         $parameters = json_decode($parameters);
-        $room = $this->roomService->createRoom($parameters);
-        return $room;
+        return $this->roomService->createRoom($parameters);
     }
 
     /**
      * @param $parameters
-     * @return void
+     * @return Room
      */
     public function getUserAction($parameters)
     {
+        $parameters = json_decode($parameters);
+        return $this->roomService->getRoom($parameters);
+    }
 
+    /**
+     * Name of RPC, use for PubSub router
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'room.rpc';
     }
 }

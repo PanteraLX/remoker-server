@@ -15,7 +15,7 @@ use RemokerBundle\Service\EstimationService;
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-class EstimationController extends RemokerController
+class EstimationController extends AbstractRemokerController
 {
     /**
      * @var UserController
@@ -37,7 +37,26 @@ class EstimationController extends RemokerController
     public function createEstimationAction($parameters)
     {
         $parameters = json_decode($parameters);
-        $estimation = $this->estimationService->createEstimation($parameters);
-        return $estimation;
+        return $this->estimationService->createEstimation($parameters);
+    }
+
+    /**
+     * @param $parameters
+     * @return Estimation
+     */
+    public function getEstimationAction($parameters)
+    {
+        $parameters = json_decode($parameters);
+        return $this->estimationService->getEstimation($parameters);
+    }
+
+    /**
+     * Name of RPC, use for PubSub router
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'estimation.rpc';
     }
 }

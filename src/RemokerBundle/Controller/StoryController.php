@@ -15,7 +15,7 @@ use RemokerBundle\Service\StoryService;
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-class StoryController extends RemokerController
+class StoryController extends AbstractRemokerController
 {
     /**
      * @var UserController
@@ -32,20 +32,31 @@ class StoryController extends RemokerController
 
     /**
      * @param $parameters
-     * @return \RemokerBundle\Document\User
+     * @return Story
      */
     public function createStoryAction($parameters)
     {
         $parameters = json_decode($parameters);
-        $story = $this->storyService->createUserAction($parameters);
-        return $story;
+        return $this->storyService->createUserAction($parameters);
     }
 
     /**
-     * @return void
+     * @param $parameters
+     * @return Story
      */
-    public function getStoryAction()
+    public function getStoryAction($parameters)
     {
+        $parameters = json_decode($parameters);
+        return $this->storyService->createStory($parameters);
+    }
 
+    /**
+     * Name of RPC, use for PubSub router
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'story.rpc';
     }
 }

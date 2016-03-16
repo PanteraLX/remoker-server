@@ -14,8 +14,22 @@ use RemokerBundle\Document\Room;
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-class RoomService extends RemokerService
+class RoomService extends AbstractRemokerService
 {
+    /**
+     * @var UserService
+     */
+    private $userService;
+
+    /**
+     * RoomService constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->userService = new UserService();
+    }
+
     /**
      * @param $parameters
      * @return Room
@@ -24,13 +38,27 @@ class RoomService extends RemokerService
     {
         $master = $this->userService->getUser($parameters);
 
-        $user = new Room();
-        $user->setName($parameters->name)
-            ->setMaster($master);
+        $room = new Room();
+        $room->setName($parameters->name)
+            ->setMaster($master)
+            ->setSchema($parameters->schema)
+            ->setShortId()
+            ->setCreatedAt();
 
-        $this->managerRegistry->getManager()->persist($user);
+        $this->managerRegistry->getManager()->persist($room);
         $this->managerRegistry->getManager()->flush();
 
-        return $user;
+        return $room;
+    }
+
+    /**
+     * @param $parameters
+     * @return Room
+     */
+    public function getRoom($parameters)
+    {
+        return $this->managerRegistry
+            ->getRepository('RemokerBundle:Room')
+            ->findOneByShortId($parameters->shortId);
     }
 }
