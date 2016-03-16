@@ -20,23 +20,25 @@ class Estimation
 {
     /**
      * @var string
-     *
      * @MongoDB\Id
      */
     private $id;
 
     /**
      * @var User
+     * @MongoDB\ReferenceOne(targetDocument="RemokerBundle\Document\User")
      */
     private $developer;
 
     /**
      * @var integer
+     * @MongoDB\Integer
      */
     private $value;
 
     /**
      * @var \DateTime
+     * @MongoDB\Date
      */
     private $createdAt;
 
@@ -50,43 +52,17 @@ class Estimation
     }
 
     /**
-     * @param string $id
-     * @return Estimation
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @return User
-     */
-    public function getDeveloper()
-    {
-        return $this->developer;
-    }
-
-    /**
      * @param User $developer
      * @return Estimation
      */
-    public function setDeveloper($developer)
+    public function setDeveloper(User $developer)
     {
         $this->developer = $developer;
         return $this;
     }
 
     /**
-     * @return int
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param int $value
+     * @param integer $value
      * @return Estimation
      */
     public function setValue($value)
@@ -96,20 +72,11 @@ class Estimation
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $createdAt
      * @return Estimation
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \MongoDate();
         return $this;
     }
 }

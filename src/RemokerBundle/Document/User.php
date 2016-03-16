@@ -20,39 +20,33 @@ class User
 {
     /**
      * @var string
-     *
      * @MongoDB\Id
      */
     private $id;
 
     /**
      * @var string
-     *
      * @MongoDB\String
      */
     private $shortId;
 
     /**
      * @var string
-     *
      * @MongoDB\String
      */
     private $name;
 
     /**
      * @var boolean
-     *
      * @MongoDB\Boolean
      */
     private $isMaster;
 
     /**
      * @var \DateTime
-     *
      * @MongoDB\Date
      */
     private $createdAt;
-
 
     /**
      * @return string
@@ -63,43 +57,16 @@ class User
     }
 
     /**
-     * @param string $id
      * @return User
      */
-    public function setId($id)
+    public function setShortId()
     {
-        $this->id = $id;
+        $this->shortId = substr(md5(uniqid(mt_rand(), true)), 0, 6);
         return $this;
     }
 
     /**
-     * @return string
-     */
-    public function getShortId()
-    {
-        return $this->shortId;
-    }
-
-    /**
-     * @param string $shortId
-     * @return User
-     */
-    public function setShortId($shortId)
-    {
-        $this->shortId = $shortId;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
+     * @param string $name Name of the user
      * @return User
      */
     public function setName($name)
@@ -109,15 +76,7 @@ class User
     }
 
     /**
-     * @return boolean
-     */
-    public function isIsMaster()
-    {
-        return $this->isMaster;
-    }
-
-    /**
-     * @param boolean $isMaster
+     * @param boolean $isMaster Boolean
      * @return User
      */
     public function setIsMaster($isMaster)
@@ -127,20 +86,11 @@ class User
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $createdAt
      * @return User
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \MongoDate();
         return $this;
     }
 }

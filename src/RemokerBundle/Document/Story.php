@@ -20,42 +20,36 @@ class Story
 {
     /**
      * @var string
-     *
      * @MongoDB\Id
      */
     private $id;
 
     /**
      * @var string
-     *
      * @MongoDB\String
      */
     private $shortId;
 
     /**
      * @var string
-     *
      * @MongoDB\String
      */
     private $name;
 
     /**
      * @var integer
-     *
      * @MongoDB\Integer
      */
     private $result;
 
     /**
      * @var Estimation[]
-     *
-     * @MongoDB\String
+     * @MongoDB\ReferenceMany(targetDocument="RemokerBundle\Document\Estimation")
      */
-    private $estimations;
+    private $estimations = array();
 
     /**
      * @var \DateTime
-     *
      * @MongoDB\Date
      */
     private $createdAt;
@@ -70,43 +64,16 @@ class Story
     }
 
     /**
-     * @param string $id
      * @return Story
      */
-    public function setId($id)
+    public function setShortId()
     {
-        $this->id = $id;
+        $this->shortId = substr(md5(uniqid(mt_rand(), true)), 0, 6);
         return $this;
     }
 
     /**
-     * @return string
-     */
-    public function getShortId()
-    {
-        return $this->shortId;
-    }
-
-    /**
-     * @param string $shortId
-     * @return Story
-     */
-    public function setShortId($shortId)
-    {
-        $this->shortId = $shortId;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
+     * @param string $name Name of the Story
      * @return Story
      */
     public function setName($name)
@@ -116,15 +83,7 @@ class Story
     }
 
     /**
-     * @return int
-     */
-    public function getResult()
-    {
-        return $this->result;
-    }
-
-    /**
-     * @param int $result
+     * @param int $result Median integer of all Estimations in this story
      * @return Story
      */
     public function setResult($result)
@@ -134,15 +93,7 @@ class Story
     }
 
     /**
-     * @return Estimation[]
-     */
-    public function getEstimations()
-    {
-        return $this->estimations;
-    }
-
-    /**
-     * @param Estimation[] $estimations
+     * @param Estimation[] $estimations Array of Estimation objects
      * @return Story
      */
     public function setEstimations($estimations)
@@ -152,20 +103,21 @@ class Story
     }
 
     /**
-     * @return \DateTime
+     * @param Estimation $estimation Estimation object
+     * @return Story
      */
-    public function getCreatedAt()
+    public function addEstimation(Estimation $estimation)
     {
-        return $this->createdAt;
+        $this->estimations[] = $estimation;
+        return $this;
     }
 
     /**
-     * @param \DateTime $createdAt
      * @return Story
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \MongoDate();
         return $this;
     }
 }

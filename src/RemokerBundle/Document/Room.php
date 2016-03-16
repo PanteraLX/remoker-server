@@ -19,53 +19,45 @@ class Room
 {
     /**
      * @var string
-     *
      * @MongoDB\Id
      */
     private $id;
 
     /**
      * @var string
-     *
      * @MongoDB\String
      */
     private $shortId;
 
     /**
      * @var string
-     *
      * @MongoDB\String
      */
     private $name;
 
     /**
      * @var string
-     *
      * @MongoDB\String
      */
     private $schema;
 
     /**
      * @var User
-     *
-     * @MongoDB\String
+     * @MongoDB\ReferenceOne(targetDocument="RemokerBundle\Document\User")
      */
     private $master;
 
     /**
      * @var Story[]
-     *
-     * @MongoDB\String
+     * @MongoDB\ReferenceMany(targetDocument="RemokerBundle\Document\Story")
      */
-    private $stories;
+    private $stories = array();
 
     /**
      * @var \DateTime
-     *
      * @MongoDB\Date
      */
     private $createdAt;
-
 
     /**
      * @return string
@@ -76,43 +68,16 @@ class Room
     }
 
     /**
-     * @param string $id
      * @return Room
      */
-    public function setId($id)
+    public function setShortId()
     {
-        $this->id = $id;
+        $this->shortId = substr(md5(uniqid(mt_rand(), true)), 0, 6);
         return $this;
     }
 
     /**
-     * @return string
-     */
-    public function getShortId()
-    {
-        return $this->shortId;
-    }
-
-    /**
-     * @param string $shortId
-     * @return Room
-     */
-    public function setShortId($shortId)
-    {
-        $this->shortId = $shortId;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
+     * @param string $name Name of the room
      * @return Room
      */
     public function setName($name)
@@ -122,15 +87,7 @@ class Room
     }
 
     /**
-     * @return string
-     */
-    public function getSchema()
-    {
-        return $this->schema;
-    }
-
-    /**
-     * @param string $schema
+     * @param string $schema Estimation Schema
      * @return Room
      */
     public function setSchema($schema)
@@ -148,25 +105,17 @@ class Room
     }
 
     /**
-     * @param User $master
+     * @param User $master Scrum-Master of the Room
      * @return Room
      */
-    public function setMaster($master)
+    public function setMaster(User $master)
     {
         $this->master = $master;
         return $this;
     }
 
     /**
-     * @return Story[]
-     */
-    public function getStories()
-    {
-        return $this->stories;
-    }
-
-    /**
-     * @param Story[] $stories
+     * @param Story[] $stories Array of Story objects
      * @return Room
      */
     public function setStories($stories)
@@ -176,20 +125,21 @@ class Room
     }
 
     /**
-     * @return \DateTime
+     * @param Story $story Story object
+     * @return Room
      */
-    public function getCreatedAt()
+    public function addStory(Story $story)
     {
-        return $this->createdAt;
+        $this->stories[] = $story;
+        return $this;
     }
 
     /**
-     * @param \DateTime $createdAt
      * @return Room
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \MongoDate();
         return $this;
     }
 }
