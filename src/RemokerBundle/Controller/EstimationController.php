@@ -4,7 +4,6 @@
  */
 namespace RemokerBundle\Controller;
 
-use RemokerBundle\Document\User;
 use RemokerBundle\Document\Estimation;
 
 /**
@@ -17,18 +16,41 @@ use RemokerBundle\Document\Estimation;
  */
 class EstimationController extends RemokerController
 {
+    /**
+     * @var UserController
+     */
+    private $userController;
 
+    /**
+     * @var StoryController
+     */
+    private $storyController;
+
+    /**
+     * EstimationController constructor
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->userController = new UserController();
+        $this->storyController = new StoryController();
+    }
+
+    /**
+     * @param $parameters
+     * @return Estimation
+     */
     public function createEstimationAction($parameters)
     {
-        $developer = new User();
+        $developer = $this->userController->getUserAction($parameters);
+
         $estimation = new Estimation();
         $estimation->setValue($parameters->value)->setDeveloper($developer);
 
+        $this->storyController->addEstimation($estimation);
+
+        $this->documentManager->persist($estimation);
+        $this->documentManager->flush();
+
         return $estimation;
-    }
-
-    public function getEstimationAction()
-    {
-
     }
 }
