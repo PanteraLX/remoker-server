@@ -4,6 +4,8 @@
  */
 namespace RemokerBundle\Controller;
 
+use RemokerBundle\Document\User;
+
 /**
  * Class UserController
  *
@@ -12,7 +14,19 @@ namespace RemokerBundle\Controller;
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-class UserController
+class UserController extends RemokerController
 {
+    public function createUserAction($parameters)
+    {
+        $user = new User();
+        $user->setName($parameters->name)
+            ->setIsMaster($parameters->isMaster);
 
+        return $user;
+    }
+
+    public function getUserAction($parameters)
+    {
+
+    }
 }

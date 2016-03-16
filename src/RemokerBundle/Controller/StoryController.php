@@ -3,6 +3,7 @@
  * StoryController.php
  */
 namespace RemokerBundle\Controller;
+use RemokerBundle\Document\Story;
 
 /**
  * Class StoryController
@@ -12,7 +13,17 @@ namespace RemokerBundle\Controller;
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-class StoryController
+class StoryController extends RemokerController
 {
 
+    public function createStoryAction($parameters) {
+        $story = new Story();
+        $story->setName($parameters->name);
+
+        return $story;
+    }
+
+    public function getStoryAction() {
+
+    }
 }
