@@ -20,7 +20,7 @@ use RemokerBundle\Service\UserService;
 class UserController extends AbstractRemokerController
 {
     /**
-     * @var UserController
+     * @var UserService
      */
     private $userService;
 

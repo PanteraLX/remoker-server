@@ -43,7 +43,7 @@ class User
     private $isMaster;
 
     /**
-     * @var \DateTime
+     * @var \MongoDate
      * @MongoDB\Date
      */
     private $createdAt;

@@ -20,7 +20,7 @@ use RemokerBundle\Service\EstimationService;
 class EstimationController extends AbstractRemokerController
 {
     /**
-     * @var UserController
+     * @var EstimationService
      */
     private $estimationService;
 

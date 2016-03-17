@@ -1,6 +1,6 @@
 <?php
 /**
- * RemokerService.php
+ * DoctrineService.php
  */
 namespace RemokerBundle\Service;
 
@@ -10,7 +10,7 @@ use RemokerBundle\RemokerBundle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class RemokerService
+ * Class DoctrineService
  *
  * @package RemokerBundle\Service
  * @author  Samuel Heinzmann <samuel.heinzman@swisscom.com>

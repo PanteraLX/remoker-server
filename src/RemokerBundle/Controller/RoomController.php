@@ -20,7 +20,7 @@ use RemokerBundle\Service\RoomService;
 class RoomController extends AbstractRemokerController
 {
     /**
-     * @var UserController
+     * @var RoomService
      */
     private $roomService;
 

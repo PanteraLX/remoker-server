@@ -54,7 +54,7 @@ class Room
     private $stories = array();
 
     /**
-     * @var \DateTime
+     * @var \MongoDate
      * @MongoDB\Date
      */
     private $createdAt;

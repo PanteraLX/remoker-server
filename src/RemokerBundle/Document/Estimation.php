@@ -43,7 +43,7 @@ class Estimation
     private $value;
 
     /**
-     * @var \DateTime
+     * @var \MongoDate
      * @MongoDB\Date
      */
     private $createdAt;

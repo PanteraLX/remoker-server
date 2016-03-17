@@ -49,7 +49,7 @@ class Story
     private $estimations = array();
 
     /**
-     * @var \DateTime
+     * @var \MongoDate
      * @MongoDB\Date
      */
     private $createdAt;
