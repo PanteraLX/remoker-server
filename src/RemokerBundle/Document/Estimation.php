@@ -25,6 +25,12 @@ class Estimation
     private $id;
 
     /**
+     * @var string
+     * @MongoDB\String
+     */
+    private $shortId;
+
+    /**
      * @var User
      * @MongoDB\ReferenceOne(targetDocument="RemokerBundle\Document\User")
      */
@@ -49,6 +55,15 @@ class Estimation
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Estimation
+     */
+    public function setShortId()
+    {
+        $this->shortId = substr(md5(uniqid(mt_rand(), true)), 0, 6);
+        return $this;
     }
 
     /**

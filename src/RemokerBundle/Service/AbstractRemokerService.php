@@ -1,33 +1,29 @@
 <?php
 /**
- * RemokerService.php
+ * AbstractRemokerService.php
  */
 namespace RemokerBundle\Service;
 
-use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
-use RemokerBundle\RemokerBundle;
-
 /**
- * Class RemokerService
+ * Class AbstractRemokerService
  *
  * @package RemokerBundle\Service
  * @author  Samuel Heinzmann <samuel.heinzman@swisscom.com>
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-abstract class AbstractRemokerService
+class AbstractRemokerService
 {
     /**
-     * @var ManagerRegistry
+     * @var DoctrineService
      */
-    protected $managerRegistry;
+    protected $doctrineService;
 
     /**
-     * RemokerService constructor.
+     * AbstractRemokerService constructor.
      */
     public function __construct()
     {
-        $container = RemokerBundle::getContainer();
-        //$this->managerRegistry = $container->get("doctrine_mongodb");
+        $this->doctrineService = new DoctrineService();
     }
 }

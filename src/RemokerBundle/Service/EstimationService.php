@@ -4,7 +4,6 @@
  */
 namespace RemokerBundle\Service;
 
-use Doctrine\ODM\MongoDB\DocumentNotFoundException;
 use RemokerBundle\Document\Estimation;
 
 /**
@@ -58,8 +57,7 @@ class EstimationService extends AbstractRemokerService
         $story = $this->storyService->getStory($parameters);
         $story->addEstimation($estimation);
 
-        $this->managerRegistry->getManager()->persist($estimation);
-        $this->managerRegistry->getManager()->flush();
+        $this->doctrineService->persist($estimation);
 
         return $estimation;
     }
@@ -67,20 +65,9 @@ class EstimationService extends AbstractRemokerService
     /**
      * @param object $parameters RP-Call parameters as Object
      * @return Estimation
-     * @throws DocumentNotFoundException
      */
     public function getEstimation($parameters)
     {
-        $estimation = $this->managerRegistry
-            ->getRepository("RemokerBundle:Estimation")
-            ->find($parameters->estimation->id);
-
-        if (!$estimation) {
-            throw new DocumentNotFoundException(
-                sprintf("The 'Estimation' document with identifier %s could not be found.", $parameters->estimation->id)
-            );
-        }
-
-        return $estimation;
+        return $this->doctrineService->find($parameters->estimation->short_id, "Estimation");
     }
 }

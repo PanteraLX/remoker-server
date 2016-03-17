@@ -4,7 +4,6 @@
  */
 namespace RemokerBundle\Service;
 
-use Doctrine\ODM\MongoDB\DocumentNotFoundException;
 use RemokerBundle\Document\Room;
 
 /**
@@ -49,8 +48,7 @@ class RoomService extends AbstractRemokerService
             ->setShortId()
             ->setCreatedAt();
 
-        $this->managerRegistry->getManager()->persist($room);
-        $this->managerRegistry->getManager()->flush();
+        $this->doctrineService->persist($room);
 
         return $room;
     }
@@ -58,20 +56,9 @@ class RoomService extends AbstractRemokerService
     /**
      * @param object $parameters RP-Call parameters as Object
      * @return Room
-     * @throws DocumentNotFoundException
      */
     public function getRoom($parameters)
     {
-        $room = $this->managerRegistry
-            ->getRepository("RemokerBundle:Room")
-            ->findOneByShortId($parameters->room->short_id);
-
-        if (!$room) {
-            throw new DocumentNotFoundException(
-                sprintf("The 'Room' document with identifier %s could not be found.", $parameters->room->short_id)
-            );
-        }
-
-        return $room;
+        return $this->doctrineService->find($parameters->room->short_id, "Room");
     }
 }

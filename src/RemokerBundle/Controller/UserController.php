@@ -42,7 +42,6 @@ class UserController extends AbstractRemokerController
      */
     public function createUserAction(WampConnection $connection, WampRequest $request, $parameters)
     {
-        var_dump($parameters);
         $parameters = json_decode($parameters[0]);
         if (!isset($parameters->user->name) || !isset($parameters->user->is_master)) {
             throw new Exception("Please set a valid user name");
