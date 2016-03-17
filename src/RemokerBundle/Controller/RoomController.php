@@ -45,6 +45,8 @@ class RoomController extends AbstractRemokerController
         $parameters = json_decode($parameters[0]);
         if (!isset($parameters->room->name)) {
             throw new Exception("Please set a room name");
+        } elseif (!isset($parameters->room->schema)) {
+            throw new Exception("Please select a schema");
         } else {
             $this->nameValidator->assert($parameters->room->name);
         }

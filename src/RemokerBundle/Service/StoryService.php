@@ -5,6 +5,7 @@
 namespace RemokerBundle\Service;
 
 use RemokerBundle\Document\Story;
+use \Exception;
 
 /**
  * Class StoryService
@@ -36,6 +37,7 @@ class StoryService extends AbstractRemokerService
      *
      * @param object $parameters RP-Call parameters as Object
      * @return Story
+     * @throws Exception
      */
     public function createStory($parameters)
     {
@@ -44,8 +46,12 @@ class StoryService extends AbstractRemokerService
             ->setShortId()
             ->setCreatedAt();
 
-        $room = $this->roomService->getRoom($parameters);
-        $room->addStory($story);
+        if (isset($parameters->room->short_id)) {
+            $room = $this->roomService->getRoom($parameters);
+            $room->addStory($story);
+        } else {
+            throw new Exception("There is no roomID");
+        }
 
         $this->doctrineService->persist($story);
 

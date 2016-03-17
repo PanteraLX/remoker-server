@@ -25,12 +25,8 @@ services:
     ###
     ## Topic (PubSub) Services
     ###
-    remoker.topic.room:
-        class: RemokerBundle\Topic\RoomTopic
+    remoker.topic:
+        class: RemokerBundle\Topic\RemokerTopic
         tags:
             - { name: gos_web_socket.topic }
 
-    remoker.topic.story:
-        class: RemokerBundle\Topic\StoryTopic
-        tags:
-            - { name: gos_web_socket.topic }

@@ -65,7 +65,7 @@ class EstimationController extends AbstractRemokerController
         if (!isset($parameters->estimation->id)) {
             throw new Exception("No EstimationId found");
         } else {
-            $this->identifierValidator->assert($parameters->estimation->id);
+            $this->identifierValidator->assert($parameters->estimation->short_id);
         }
         $estimation = $this->estimationService->getEstimation($parameters);
         return $this->serializer->serialize($estimation, "json");

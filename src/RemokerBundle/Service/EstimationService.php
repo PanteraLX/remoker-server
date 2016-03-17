@@ -5,6 +5,7 @@
 namespace RemokerBundle\Service;
 
 use RemokerBundle\Document\Estimation;
+use \Exception;
 
 /**
  * Class EstimationService
@@ -44,18 +45,26 @@ class EstimationService extends AbstractRemokerService
      *
      * @param object $parameters RP-Call parameters as Object
      * @return Estimation
+     * @throws Exception
      */
     public function createEstimation($parameters)
     {
-        $developer = $this->userService->getUser($parameters);
-
+        if (isset($parameters->user->short_id)) {
+            $developer = $this->userService->getUser($parameters);
+        } else {
+            throw new Exception("There is no userID");
+        }
         $estimation = new Estimation();
         $estimation->setDeveloper($developer)
             ->setValue($parameters->estimation->value)
             ->setCreatedAt();
 
-        $story = $this->storyService->getStory($parameters);
-        $story->addEstimation($estimation);
+        if (isset($parameters->story->short_id)) {
+            $story = $this->storyService->getStory($parameters);
+            $story->addEstimation($estimation);
+        } else {
+            throw new Exception("There is no storyID");
+        }
 
         $this->doctrineService->persist($estimation);
 

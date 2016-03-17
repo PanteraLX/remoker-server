@@ -39,12 +39,7 @@ remoker_route.rpc.user:
 ## Topic (PubSub) Routes
 ###
 
-remoker_route.topic_room:
-    channel: room/{roomID}
+remoker_route.topic:
+    channel: remoker/{ID}
     handler:
-        callback: "room.topic"
-
-remoker_route.topic_story:
-    channel: story/{storyID}
-    handler:
-        callback: "story.topic"
+        callback: "remoker.topic"

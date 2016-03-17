@@ -43,11 +43,10 @@ class UserController extends AbstractRemokerController
     public function createUserAction(WampConnection $connection, WampRequest $request, $parameters)
     {
         $parameters = json_decode($parameters[0]);
-        if (!isset($parameters->user->name) || !isset($parameters->user->is_master)) {
+        if (!isset($parameters->name)) {
             throw new Exception("Please set a valid user name");
         } else {
-            $this->nameValidator->assert($parameters->user->name);
-            $this->booleanValidator->assert($parameters->user->is_master);
+            $this->nameValidator->assert($parameters->name);
         }
         $user = $this->userService->createUser($parameters);
         return $this->serializer->serialize($user, "json");

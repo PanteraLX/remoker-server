@@ -5,6 +5,7 @@
 namespace RemokerBundle\Service;
 
 use RemokerBundle\Document\Room;
+use \Exception;
 
 /**
  * Class RoomService
@@ -36,10 +37,15 @@ class RoomService extends AbstractRemokerService
      *
      * @param object $parameters RP-Call parameters as Object
      * @return Room
+     * @throws Exception
      */
     public function createRoom($parameters)
     {
-        $master = $this->userService->getUser($parameters);
+        if (isset($parameters->user->short_id)) {
+            $master = $this->userService->getUser($parameters);
+        } else {
+            throw new Exception("There is no userID");
+        }
 
         $room = new Room();
         $room->setName($parameters->room->name)

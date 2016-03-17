@@ -56,6 +56,7 @@ class DoctrineService
      */
     public function find($id, $repository)
     {
+        $this->managerRegistry = $this->container->get("doctrine_mongodb");
         $object = $this->managerRegistry
             ->getRepository("RemokerBundle:" . $repository)
             ->findOneByShortId($id);

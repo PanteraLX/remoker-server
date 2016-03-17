@@ -16,7 +16,7 @@ use Ratchet\Wamp\Topic;
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-abstract class AbstractRemokerTopic implements TopicInterface
+class RemokerTopic implements TopicInterface
 {
     /**
      * This will receive any Subscription requests for this topic.
@@ -70,5 +70,13 @@ abstract class AbstractRemokerTopic implements TopicInterface
         array $eligible
     ) {
         $topic->broadcast($event);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return "remoker.topic";
     }
 }
