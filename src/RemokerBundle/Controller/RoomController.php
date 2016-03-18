@@ -7,6 +7,7 @@ namespace RemokerBundle\Controller;
 use Exception;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Ratchet\Wamp\WampConnection;
+use RemokerBundle\Validator\NameValidator;
 use RemokerBundle\Service\RoomService;
 
 /**
@@ -48,7 +49,8 @@ class RoomController extends AbstractRemokerController
         } elseif (!isset($parameters->room->schema)) {
             throw new Exception("Please select a schema");
         } else {
-            $this->nameValidator->assert($parameters->room->name);
+            $this->nameValidator->validate($parameters->room->name);
+            $this->schemaValidator->validate($parameters->room->schema);
         }
         $room = $this->roomService->createRoom($parameters);
         return $this->serializer->serialize($room, "json");
@@ -67,7 +69,7 @@ class RoomController extends AbstractRemokerController
         if (!isset($parameters->room->short_id)) {
             throw new Exception("Please set a room identifier");
         } else {
-            $this->identifierValidator->assert($parameters->room->short_id);
+            $this->identifierValidator->validate($parameters->room->short_id);
         }
         $room = $this->roomService->getRoom($parameters);
         return $this->serializer->serialize($room, "json");

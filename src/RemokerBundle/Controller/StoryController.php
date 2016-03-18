@@ -8,6 +8,7 @@ use Exception;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Ratchet\Wamp\WampConnection;
 use RemokerBundle\Service\StoryService;
+use RemokerBundle\Validator\NameValidator;
 
 /**
  * Class StoryController
@@ -46,7 +47,7 @@ class StoryController extends AbstractRemokerController
         if (!isset($parameters->story->name)) {
             throw new Exception("Please set a story name");
         } else {
-            $this->nameValidator->assert($parameters->story->name);
+            $this->nameValidator->validate($parameters->story->name);
         }
         $story = $this->storyService->createStory($parameters);
         return $this->serializer->serialize($story, "json");
@@ -62,10 +63,10 @@ class StoryController extends AbstractRemokerController
     public function getStoryAction(WampConnection $connection, WampRequest $request, $parameters)
     {
         $parameters = json_decode($parameters[0]);
-        if (!isset($parameters->story->id)) {
+        if (!isset($parameters->story->short_id)) {
             throw new Exception("No StoryId found!");
         } else {
-            $this->identifierValidator->assert($parameters->story->id);
+            $this->identifierValidator->validate($parameters->story->short_id);
         }
         $story = $this->storyService->getStory($parameters);
         return $this->serializer->serialize($story, "json");

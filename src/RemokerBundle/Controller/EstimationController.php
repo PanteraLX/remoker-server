@@ -62,10 +62,10 @@ class EstimationController extends AbstractRemokerController
     public function getEstimationAction(WampConnection $connection, WampRequest $request, $parameters)
     {
         $parameters = json_decode($parameters[0]);
-        if (!isset($parameters->estimation->id)) {
+        if (!isset($parameters->estimation->short_id)) {
             throw new Exception("No EstimationId found");
         } else {
-            $this->identifierValidator->assert($parameters->estimation->short_id);
+            $this->identifierValidator->validate($parameters->estimation->short_id);
         }
         $estimation = $this->estimationService->getEstimation($parameters);
         return $this->serializer->serialize($estimation, "json");

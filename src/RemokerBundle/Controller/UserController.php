@@ -8,6 +8,7 @@ use Exception;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Ratchet\Wamp\WampConnection;
 use RemokerBundle\Service\UserService;
+use RemokerBundle\Validator\NameValidator;
 
 /**
  * Class UserController
@@ -46,7 +47,7 @@ class UserController extends AbstractRemokerController
         if (!isset($parameters->name)) {
             throw new Exception("Please set a valid user name");
         } else {
-            $this->nameValidator->assert($parameters->name);
+            $this->nameValidator->validate($parameters->user->name);
         }
         $user = $this->userService->createUser($parameters);
         return $this->serializer->serialize($user, "json");
@@ -62,8 +63,10 @@ class UserController extends AbstractRemokerController
     public function getUserAction(WampConnection $connection, WampRequest $request, $parameters)
     {
         $parameters = json_decode($parameters[0]);
-        if (!isset($parameters->user->id)) {
+        if (!isset($parameters->user->short_id)) {
             throw new Exception("No UserId found!");
+        } else {
+            $this->identifierValidator->validate($parameters->user->short_id);
         }
         $user = $this->userService->getUser($parameters);
         return $this->serializer->serialize($user, "json");
