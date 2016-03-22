@@ -44,7 +44,7 @@ class EstimationController extends AbstractRemokerController
     {
         $parameters = json_decode($parameters[0]);
         if (!isset($parameters->estimation->value)) {
-            throw new Exception("Please set a value for this estimation");
+            throw new Exception("missing_estimationvalue");
         } else {
             $this->valueValidator->assert($parameters->estimation->value);
         }
@@ -63,7 +63,7 @@ class EstimationController extends AbstractRemokerController
     {
         $parameters = json_decode($parameters[0]);
         if (!isset($parameters->estimation->short_id)) {
-            throw new Exception("No EstimationId found");
+            throw new Exception("missing_estimationid");
         } else {
             $this->identifierValidator->validate($parameters->estimation->short_id);
         }

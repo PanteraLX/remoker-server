@@ -50,7 +50,7 @@ class StoryService extends AbstractRemokerService
             $room = $this->roomService->getRoom($parameters);
             $room->addStory($story);
         } else {
-            throw new Exception("There is no roomID");
+            throw new Exception("missing_roomid");
         }
 
         $this->doctrineService->persist($story);
@@ -65,5 +65,32 @@ class StoryService extends AbstractRemokerService
     public function getStory($parameters)
     {
         return $this->doctrineService->find($parameters->story->short_id, "Story");
+    }
+
+    /**
+     * @param object $parameters String with Body Parameters
+     * @return Story
+     */
+    public function deleteEstimations($parameters)
+    {
+        $story = $this->getStory($parameters);
+        $story->setEstimations(array())
+            ->setResult(-1);
+        $this->doctrineService->persist($story);
+
+        return $story;
+    }
+
+    /**
+     * @param object $parameters String with Body Parameters
+     * @return Story
+     */
+    public function setResult($parameters)
+    {
+        $story = $this->getStory($parameters);
+        $story->setResult($parameters->task->result);
+        $this->doctrineService->persist($story);
+
+        return $story;
     }
 }

@@ -52,7 +52,7 @@ class EstimationService extends AbstractRemokerService
         if (isset($parameters->user->short_id)) {
             $developer = $this->userService->getUser($parameters);
         } else {
-            throw new Exception("There is no userID");
+            throw new Exception("missing_userid");
         }
         $estimation = new Estimation();
         $estimation->setDeveloper($developer)
@@ -63,7 +63,7 @@ class EstimationService extends AbstractRemokerService
             $story = $this->storyService->getStory($parameters);
             $story->addEstimation($estimation);
         } else {
-            throw new Exception("There is no storyID");
+            throw new Exception("missing_storyid");
         }
 
         $this->doctrineService->persist($estimation);

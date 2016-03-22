@@ -45,9 +45,9 @@ class RoomController extends AbstractRemokerController
     {
         $parameters = json_decode($parameters[0]);
         if (!isset($parameters->room->name)) {
-            throw new Exception("Please set a room name");
+            throw new Exception("missing_roomname");
         } elseif (!isset($parameters->room->schema)) {
-            throw new Exception("Please select a schema");
+            throw new Exception("missing_schema");
         } else {
             $this->nameValidator->validate($parameters->room->name);
             $this->schemaValidator->validate($parameters->room->schema);
@@ -67,7 +67,7 @@ class RoomController extends AbstractRemokerController
     {
         $parameters = json_decode($parameters[0]);
         if (!isset($parameters->room->short_id)) {
-            throw new Exception("Please set a room identifier");
+            throw new Exception("missing_roomid");
         } else {
             $this->identifierValidator->validate($parameters->room->short_id);
         }

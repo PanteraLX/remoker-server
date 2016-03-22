@@ -45,7 +45,7 @@ class StoryController extends AbstractRemokerController
     {
         $parameters = json_decode($parameters[0]);
         if (!isset($parameters->story->name)) {
-            throw new Exception("Please set a story name");
+            throw new Exception("missing_storyname");
         } else {
             $this->nameValidator->validate($parameters->story->name);
         }
@@ -64,12 +64,53 @@ class StoryController extends AbstractRemokerController
     {
         $parameters = json_decode($parameters[0]);
         if (!isset($parameters->story->short_id)) {
-            throw new Exception("No StoryId found!");
+            throw new Exception("missing_storyid");
         } else {
             $this->identifierValidator->validate($parameters->story->short_id);
         }
         $story = $this->storyService->getStory($parameters);
         return $this->serializer->serialize($story, "json");
+    }
+
+    /**
+     * Deletes all Estimations for a reestiamtion of the Story
+     *
+     * @param WampConnection $connection WampConnection
+     * @param WampRequest    $request    WampRequest
+     * @param string         $parameters RP-Call parameters as JSON string
+     * @return string
+     * @throws Exception
+     */
+    public function deleteEstimationsAction(WampConnection $connection, WampRequest $request, $parameters)
+    {
+        $parameters = json_decode($parameters[0]);
+        if (!isset($parameters->story->short_id)) {
+            throw new Exception('missing_storyid');
+        } else {
+            $this->identifierValidator->validate($parameters->story->short_id);
+        }
+        $story = $this->storyService->deleteEstimations($parameters);
+        return $this->serializer->serialize($story, 'json');
+    }
+
+    /**
+     * Sets the reulst of the Story
+     *
+     * @param WampConnection $connection WampConnection
+     * @param WampRequest    $request    WampRequest
+     * @param string         $parameters Parameters as JSON string
+     * @return string
+     * @throws Exception
+     */
+    public function setResultAction(WampConnection $connection, WampRequest $request, $parameters)
+    {
+        $parameters = json_decode($parameters[0]);
+        if (!isset($parameters->task->result)) {
+            throw new Exception('missing_result');
+        } else {
+        }
+        $story = $this->storyService->setResult($parameters);
+        return $this->serializer->serialize($story, 'json');
     }
 
     /**

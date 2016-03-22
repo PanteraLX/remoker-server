@@ -21,12 +21,12 @@ class IdentifierValidator
      * Throws Alpha-Numerical exception if Identifier is not valid
      *
      * @param string $id        Identifier to validate
-     * @param int    $maxLength Maximal length of the Identifier
      * @param int    $minLength Minimal length of the Identifier
+     * @param int    $maxLength Maximal length of the Identifier
      * @throws AlnumException
      * @return string
      */
-    public function validate($id, $minLength = 6,  $maxLength = 6)
+    public function validate($id, $minLength = 6, $maxLength = 6)
     {
         $pattern = Validator::alnum()->length($minLength, $maxLength);
         if (!$pattern->validate($id)) {

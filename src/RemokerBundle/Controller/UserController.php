@@ -44,8 +44,8 @@ class UserController extends AbstractRemokerController
     public function createUserAction(WampConnection $connection, WampRequest $request, $parameters)
     {
         $parameters = json_decode($parameters[0]);
-        if (!isset($parameters->name)) {
-            throw new Exception("Please set a valid user name");
+        if (!isset($parameters->user->name)) {
+            throw new Exception("missing_username");
         } else {
             $this->nameValidator->validate($parameters->user->name);
         }
@@ -64,7 +64,7 @@ class UserController extends AbstractRemokerController
     {
         $parameters = json_decode($parameters[0]);
         if (!isset($parameters->user->short_id)) {
-            throw new Exception("No UserId found!");
+            throw new Exception("missing_userid");
         } else {
             $this->identifierValidator->validate($parameters->user->short_id);
         }

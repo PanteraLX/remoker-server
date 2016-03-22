@@ -45,7 +45,7 @@ class RoomService extends AbstractRemokerService
             $master = $this->userService->getUser($parameters)
                 ->setIsMaster(true);
         } else {
-            throw new Exception("There is no userID");
+            throw new Exception("missing_userid");
         }
 
         $room = new Room();

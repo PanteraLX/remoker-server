@@ -25,7 +25,7 @@ class UserService extends AbstractRemokerService
     public function createUser($parameters)
     {
         $user = new User();
-        $user->setName($parameters->name)
+        $user->setName($parameters->user->name)
             ->setCreatedAt()
             ->setShortId();
 
