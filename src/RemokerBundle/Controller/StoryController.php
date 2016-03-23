@@ -8,7 +8,6 @@ use Exception;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Ratchet\Wamp\WampConnection;
 use RemokerBundle\Service\StoryService;
-use RemokerBundle\Validator\NameValidator;
 
 /**
  * Class StoryController
@@ -105,7 +104,7 @@ class StoryController extends AbstractRemokerController
     public function setResultAction(WampConnection $connection, WampRequest $request, $parameters)
     {
         $parameters = json_decode($parameters[0]);
-        if (!isset($parameters->task->result)) {
+        if (!isset($parameters->story->result)) {
             throw new Exception('missing_result');
         } else {
         }

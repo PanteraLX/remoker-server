@@ -8,7 +8,6 @@ use Exception;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Ratchet\Wamp\WampConnection;
 use RemokerBundle\Service\UserService;
-use RemokerBundle\Validator\NameValidator;
 
 /**
  * Class UserController

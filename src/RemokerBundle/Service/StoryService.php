@@ -88,7 +88,7 @@ class StoryService extends AbstractRemokerService
     public function setResult($parameters)
     {
         $story = $this->getStory($parameters);
-        $story->setResult($parameters->task->result);
+        $story->setResult($parameters->story->result);
         $this->doctrineService->persist($story);
 
         return $story;

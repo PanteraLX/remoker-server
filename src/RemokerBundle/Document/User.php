@@ -57,6 +57,14 @@ class User
     }
 
     /**
+     * @return bool
+     */
+    public function isMaster()
+    {
+        return $this->isMaster;
+    }
+
+    /**
      * @return User
      */
     public function setShortId()

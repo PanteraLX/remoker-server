@@ -7,7 +7,6 @@ namespace RemokerBundle\Controller;
 use Exception;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Ratchet\Wamp\WampConnection;
-use RemokerBundle\Validator\NameValidator;
 use RemokerBundle\Service\RoomService;
 
 /**

@@ -54,6 +54,12 @@ class Room
     private $stories = array();
 
     /**
+     * @var User[]
+     * @MongoDB\ReferenceMany(targetDocument="RemokerBundle\Document\User")
+     */
+    private $developers = array();
+
+    /**
      * @var \MongoDate
      * @MongoDB\Date
      */
@@ -131,6 +137,26 @@ class Room
     public function addStory(Story $story)
     {
         $this->stories[] = $story;
+        return $this;
+    }
+
+    /**
+     * @param User[] $developers Array of User objects
+     * @return Room
+     */
+    public function setDevelopers($developers)
+    {
+        $this->developers = $developers;
+        return $this;
+    }
+
+    /**
+     * @param User $developer User object
+     * @return Room
+     */
+    public function addDeveloper(User $developer)
+    {
+        $this->developers[] = $developer;
         return $this;
     }
 
