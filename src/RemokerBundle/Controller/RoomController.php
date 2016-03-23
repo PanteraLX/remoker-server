@@ -62,6 +62,28 @@ class RoomController extends AbstractRemokerController
      * @return string
      * @throws Exception
      */
+    public function addDeveloperAction(WampConnection $connection, WampRequest $request, $parameters)
+    {
+        $parameters = json_decode($parameters[0]);
+        if (!isset($parameters->room->short_id)) {
+            throw new Exception("missing_roomid");
+        } elseif (!isset($parameters->user->short_id)) {
+            throw new Exception("missing_userid");
+        } else {
+            $this->identifierValidator->validate($parameters->room->short_id);
+        }
+        $room = $this->roomService->addDeveloper($parameters);
+        return $this->serializer->serialize($room, "json");
+    }
+
+
+    /**
+     * @param WampConnection $connection WampConnection
+     * @param WampRequest    $request    WampRequest
+     * @param string         $parameters RP-Call parameters as JSON string
+     * @return string
+     * @throws Exception
+     */
     public function getRoomAction(WampConnection $connection, WampRequest $request, $parameters)
     {
         $parameters = json_decode($parameters[0]);

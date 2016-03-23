@@ -63,19 +63,25 @@ class RoomService extends AbstractRemokerService
     /**
      * @param object $parameters RP-Call parameters as Object
      * @return Room
+     */
+    public function addDeveloper($parameters)
+    {
+        $developer = $this->userService->getUser($parameters);
+        $room = $this->doctrineService->find($parameters->room->short_id, "Room");
+        if (!$developer->isMaster()) {
+            $room->addDeveloper($developer);
+        }
+        return $room;
+    }
+
+
+    /**
+     * @param object $parameters RP-Call parameters as Object
+     * @return Room
      * @throws Exception
      */
     public function getRoom($parameters)
     {
-        if (isset($parameters->user->short_id)) {
-            $developer = $this->userService->getUser($parameters);
-        } else {
-            throw new Exception("missing_userid");
-        }
-        $room = $this->doctrineService->find($parameters->room->short_id, "Room");
-        if(!$developer->isMaster()) {
-            $room->addDeveloper($developer);
-        }
-        return $room;
+        return $this->doctrineService->find($parameters->room->short_id, "Room");
     }
 }

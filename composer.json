@@ -31,7 +31,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "gos/web-socket-bundle": "^1.6",
         "jms/serializer-bundle": "1.1.*",
-        "respect/validation": "^1.0"
+        "respect/validation": "^1.0",
+        "graviton/deploy-scripts": "^0.4.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
