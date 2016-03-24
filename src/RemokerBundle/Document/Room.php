@@ -5,6 +5,7 @@
 namespace RemokerBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use RemokerBundle\Generator\IdGenerator;
 
 /**
  * Class Room
@@ -19,15 +20,9 @@ class Room
 {
     /**
      * @var string
-     * @MongoDB\Id
+     * @MongoDB\Id(strategy="NONE")
      */
     private $id;
-
-    /**
-     * @var string
-     * @MongoDB\String
-     */
-    private $shortId;
 
     /**
      * @var string
@@ -76,9 +71,9 @@ class Room
     /**
      * @return Room
      */
-    public function setShortId()
+    public function setId()
     {
-        $this->shortId = substr(md5(uniqid(mt_rand(), true)), 0, 6);
+        $this->id = IdGenerator::generate();
         return $this;
     }
 

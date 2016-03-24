@@ -27,7 +27,7 @@ class UserService extends AbstractRemokerService
         $user = new User();
         $user->setName($parameters->user->name)
             ->setCreatedAt()
-            ->setShortId();
+            ->setId();
 
         $this->doctrineService->persist($user);
 
@@ -35,11 +35,13 @@ class UserService extends AbstractRemokerService
     }
 
     /**
+     *
+     *
      * @param object $parameters RP-Call parameters as Object
      * @return User
      */
     public function getUser($parameters)
     {
-        return $this->doctrineService->find($parameters->user->short_id, "User");
+        return $this->doctrineService->find($parameters->user->id, "User");
     }
 }

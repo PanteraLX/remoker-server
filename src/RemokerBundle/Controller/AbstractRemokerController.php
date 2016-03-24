@@ -1,6 +1,9 @@
 <?php
 /**
  * AbstractRemokerController.php
+ *
+ * This abstract controller implements the RpcInterface since the methods of all children should be registered at the
+ * WAMP router
  */
 namespace RemokerBundle\Controller;
 

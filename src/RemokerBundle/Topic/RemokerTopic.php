@@ -29,7 +29,7 @@ class RemokerTopic implements TopicInterface
      */
     public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
-        //  this will broadcast the message to ALL subscribers of this topic.
+        //  this will broadcast the message to all subscribers of this topic.
         $topic->broadcast(["msg" => $connection->resourceId . " has joined " . $topic->getId()]);
     }
 
@@ -44,7 +44,7 @@ class RemokerTopic implements TopicInterface
      */
     public function onUnSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
-        //this will broadcast the message to ALL subscribers of this topic.
+        //this will broadcast the message to all subscribers of this topic.
         $topic->broadcast(["msg" => $connection->resourceId . " has left " . $topic->getId()]);
     }
 
@@ -69,10 +69,13 @@ class RemokerTopic implements TopicInterface
         array $exclude,
         array $eligible
     ) {
+        //this will broadcast the event to all subscribers of this topic.
         $topic->broadcast($event);
     }
 
     /**
+     * Registers this topic at the WAMP router (config/routing.yml)
+     *
      * @return string
      */
     public function getName()

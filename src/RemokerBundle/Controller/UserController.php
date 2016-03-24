@@ -62,16 +62,18 @@ class UserController extends AbstractRemokerController
     public function getUserAction(WampConnection $connection, WampRequest $request, $parameters)
     {
         $parameters = json_decode($parameters[0]);
-        if (!isset($parameters->user->short_id)) {
+        if (!isset($parameters->user->id)) {
             throw new Exception("missing_userid");
         } else {
-            $this->identifierValidator->validate($parameters->user->short_id);
+            $this->identifierValidator->validate($parameters->user->id);
         }
         $user = $this->userService->getUser($parameters);
         return $this->serializer->serialize($user, "json");
     }
 
     /**
+     * Registers this controller as a RPC callback at the WAMP router (config/routing.yml)
+     *
      * @return string
      */
     public function getName()

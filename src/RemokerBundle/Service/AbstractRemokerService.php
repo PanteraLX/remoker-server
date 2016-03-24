@@ -12,7 +12,7 @@ namespace RemokerBundle\Service;
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-class AbstractRemokerService
+abstract class AbstractRemokerService
 {
     /**
      * @var DoctrineService

@@ -93,10 +93,10 @@ doctrine_mongodb:
 # GoS WebSocket Configuration
 gos_web_socket:
     server:
-        port: 1337        #The port the socket server will listen on
-        host: 127.0.0.1   #The host ip to bind to
+        port: "%websocket_port%"   #The port the socket server will listen on
+        host: "%websocket_host%"   #The host ip to bind to
         router:
             resources:
-                - @RemokerBundle/Resources/config/pubsub/routing.yml
+                - @RemokerBundle/Resources/config/routing.yml
     client:
         firewall: main

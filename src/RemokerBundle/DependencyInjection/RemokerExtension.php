@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 class RemokerExtension extends Extension
 {
     /**
-     * All services and parameters related to this extension will be loaded
+     * All services and parameters (e.g. routing) related to this extension will be loaded
      *
      * @param array            $configs   Configurations
      * @param ContainerBuilder $container Container Builder

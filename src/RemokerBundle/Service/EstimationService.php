@@ -49,17 +49,18 @@ class EstimationService extends AbstractRemokerService
      */
     public function createEstimation($parameters)
     {
-        if (isset($parameters->user->short_id)) {
+        if (isset($parameters->user->id)) {
             $developer = $this->userService->getUser($parameters);
         } else {
             throw new Exception("missing_userid");
         }
         $estimation = new Estimation();
         $estimation->setDeveloper($developer)
+            ->setId()
             ->setValue($parameters->estimation->value)
             ->setCreatedAt();
 
-        if (isset($parameters->story->short_id)) {
+        if (isset($parameters->story->id)) {
             $story = $this->storyService->getStory($parameters);
             $story->addEstimation($estimation);
         } else {
@@ -77,6 +78,6 @@ class EstimationService extends AbstractRemokerService
      */
     public function getEstimation($parameters)
     {
-        return $this->doctrineService->find($parameters->estimation->short_id, "Estimation");
+        return $this->doctrineService->find($parameters->estimation->id, "Estimation");
     }
 }

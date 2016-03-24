@@ -53,6 +53,8 @@ class StoryController extends AbstractRemokerController
     }
 
     /**
+     *
+     *
      * @param WampConnection $connection WampConnection
      * @param WampRequest    $request    WampRequest
      * @param string         $parameters RP-Call parameters as JSON string
@@ -62,10 +64,10 @@ class StoryController extends AbstractRemokerController
     public function getStoryAction(WampConnection $connection, WampRequest $request, $parameters)
     {
         $parameters = json_decode($parameters[0]);
-        if (!isset($parameters->story->short_id)) {
+        if (!isset($parameters->story->id)) {
             throw new Exception("missing_storyid");
         } else {
-            $this->identifierValidator->validate($parameters->story->short_id);
+            $this->identifierValidator->validate($parameters->story->id);
         }
         $story = $this->storyService->getStory($parameters);
         return $this->serializer->serialize($story, "json");
@@ -83,17 +85,17 @@ class StoryController extends AbstractRemokerController
     public function deleteEstimationsAction(WampConnection $connection, WampRequest $request, $parameters)
     {
         $parameters = json_decode($parameters[0]);
-        if (!isset($parameters->story->short_id)) {
+        if (!isset($parameters->story->id)) {
             throw new Exception('missing_storyid');
         } else {
-            $this->identifierValidator->validate($parameters->story->short_id);
+            $this->identifierValidator->validate($parameters->story->id);
         }
         $story = $this->storyService->deleteEstimations($parameters);
         return $this->serializer->serialize($story, 'json');
     }
 
     /**
-     * Sets the reulst of the Story
+     * Sets the result of the Story
      *
      * @param WampConnection $connection WampConnection
      * @param WampRequest    $request    WampRequest
@@ -113,6 +115,8 @@ class StoryController extends AbstractRemokerController
     }
 
     /**
+     * Registers this controller as a RPC callback at the WAMP router (config/routing.yml)
+     *
      * @return string
      */
     public function getName()

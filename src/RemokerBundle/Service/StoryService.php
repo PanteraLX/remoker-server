@@ -43,10 +43,10 @@ class StoryService extends AbstractRemokerService
     {
         $story = new Story();
         $story->setName($parameters->story->name)
-            ->setShortId()
+            ->setId()
             ->setCreatedAt();
 
-        if (isset($parameters->room->short_id)) {
+        if (isset($parameters->room->id)) {
             $room = $this->roomService->getRoom($parameters);
             $room->addStory($story);
         } else {
@@ -64,7 +64,7 @@ class StoryService extends AbstractRemokerService
      */
     public function getStory($parameters)
     {
-        return $this->doctrineService->find($parameters->story->short_id, "Story");
+        return $this->doctrineService->find($parameters->story->id, "Story");
     }
 
     /**

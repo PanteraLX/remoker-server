@@ -18,7 +18,8 @@ use Respect\Validation\Validator;
 class IdentifierValidator
 {
     /**
-     * Throws Alpha-Numerical exception if Identifier is not valid
+     * Throws Alpha-Numerical exception if Identifier is not valid.
+     * The minimal and maximal length is set to 6 by default, since all IDs are 6 chars long
      *
      * @param string $id        Identifier to validate
      * @param int    $minLength Minimal length of the Identifier

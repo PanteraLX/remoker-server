@@ -1,6 +1,8 @@
 <?php
 /**
  * DoctrineService.php
+ *
+ * This service is responsible for all writing and fetching to and from the Mongo database
  */
 namespace RemokerBundle\Service;
 
@@ -20,11 +22,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class DoctrineService
 {
     /**
+     * Symfony Dependency Injection Container
+     *
      * @var ContainerInterface
      */
     private $container;
 
     /**
+     * Doctrine ODM ManagerRegistry
+     *
      * @var ManagerRegistry
      */
     private $managerRegistry;
@@ -38,6 +44,8 @@ class DoctrineService
     }
 
     /**
+     * Gets the Doctrine ODM Manager out of the Symfony DI container and persists the given object
+     *
      * @param object $object Object to persist
      * @return void
      */
@@ -49,6 +57,10 @@ class DoctrineService
     }
 
     /**
+     * All objects are identified by a MongoDB ID and a custom, 6 chars long short ID.
+     * Since its much more convenient to communicate the short ID (e.g the room ID),
+     * only one findObject method id implemented.
+     *
      * @param string $id         ID of the object to find
      * @param string $repository Repository name of the object
      * @return mixed
@@ -59,7 +71,7 @@ class DoctrineService
         $this->managerRegistry = $this->container->get("doctrine_mongodb");
         $object = $this->managerRegistry
             ->getRepository("RemokerBundle:" . $repository)
-            ->findOneByShortId($id);
+            ->find($id);
 
         if (!$object) {
             throw new DocumentNotFoundException(

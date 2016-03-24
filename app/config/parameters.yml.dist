@@ -17,3 +17,9 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    # WebSocket server config
+    websocket_port: 1337
+    websocket_host: 127.0.0.1
+
+

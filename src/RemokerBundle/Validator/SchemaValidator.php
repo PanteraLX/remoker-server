@@ -14,7 +14,7 @@ namespace RemokerBundle\Validator;
 class SchemaValidator
 {
     /**
-     * Validates the schema. Returns 'Fibonacci' if an invalid schema is set
+     * Validates the schema. Returns 'Fibonacci' if an invalid or unknown schema is set
      *
      * @param string $schema Chosen estimation schema
      * @return string

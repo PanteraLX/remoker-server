@@ -34,6 +34,8 @@ class RoomController extends AbstractRemokerController
     }
 
     /**
+     * Action for the creation of a new room
+     *
      * @param WampConnection $connection WampConnection
      * @param WampRequest    $request    WampRequest
      * @param string         $parameters RP-Call parameters as JSON string
@@ -56,6 +58,8 @@ class RoomController extends AbstractRemokerController
     }
 
     /**
+     * Adds a developer to the room
+     *
      * @param WampConnection $connection WampConnection
      * @param WampRequest    $request    WampRequest
      * @param string         $parameters RP-Call parameters as JSON string
@@ -65,12 +69,12 @@ class RoomController extends AbstractRemokerController
     public function addDeveloperAction(WampConnection $connection, WampRequest $request, $parameters)
     {
         $parameters = json_decode($parameters[0]);
-        if (!isset($parameters->room->short_id)) {
+        if (!isset($parameters->room->id)) {
             throw new Exception("missing_roomid");
-        } elseif (!isset($parameters->user->short_id)) {
+        } elseif (!isset($parameters->user->id)) {
             throw new Exception("missing_userid");
         } else {
-            $this->identifierValidator->validate($parameters->room->short_id);
+            $this->identifierValidator->validate($parameters->room->id);
         }
         $room = $this->roomService->addDeveloper($parameters);
         return $this->serializer->serialize($room, "json");
@@ -78,6 +82,8 @@ class RoomController extends AbstractRemokerController
 
 
     /**
+     * Action for getting an existing room
+     *
      * @param WampConnection $connection WampConnection
      * @param WampRequest    $request    WampRequest
      * @param string         $parameters RP-Call parameters as JSON string
@@ -87,16 +93,20 @@ class RoomController extends AbstractRemokerController
     public function getRoomAction(WampConnection $connection, WampRequest $request, $parameters)
     {
         $parameters = json_decode($parameters[0]);
-        if (!isset($parameters->room->short_id)) {
+
+        // The room to get is identified by the id
+        if (!isset($parameters->room->id)) {
             throw new Exception("missing_roomid");
         } else {
-            $this->identifierValidator->validate($parameters->room->short_id);
+            $this->identifierValidator->validate($parameters->room->id);
         }
         $room = $this->roomService->getRoom($parameters);
         return $this->serializer->serialize($room, "json");
     }
 
     /**
+     * Registers this controller as a RPC callback at the WAMP router (config/routing.yml)
+     *
      * @return string
      */
     public function getName()
