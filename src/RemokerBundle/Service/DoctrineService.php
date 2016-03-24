@@ -74,9 +74,7 @@ class DoctrineService
             ->find($id);
 
         if (!$object) {
-            throw new DocumentNotFoundException(
-                sprintf("The %s document with identifier %s could not be found.", $repository, $id)
-            );
+            throw new DocumentNotFoundException("document_not_found");
         }
         return $object;
     }
