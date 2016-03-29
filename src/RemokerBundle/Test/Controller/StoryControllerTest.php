@@ -1,31 +1,31 @@
 <?php
 /**
- * UserControllerTest.php
+ * StoryControllerTest.php
  */
 namespace RemokerBundle\Test\Controller;
 
-use RemokerBundle\Controller\UserController;
-use RemokerBundle\Service\UserService;
+use RemokerBundle\Controller\StoryController;
+use RemokerBundle\Service\StoryService;
 use Respect\Validation\Exceptions\AlnumException;
 
 /**
- * Class UserControllerTest
+ * Class StoryControllerTest
  * @package RemokerBundle\Test\Controller
  * @author  Samuel Heinzmann <samuel.heinzman@swisscom.com>
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link    https://github.com/PanteraLX/remoker-server
  */
-class UserControllerTest extends ControllerTestCase
+class StoryControllerTest extends ControllerTestCase
 {
     /**
-     * @var UserController
+     * @var StoryController
      */
-    private $userController;
+    private $storyController;
 
     /**
-     * @var UserService
+     * @var StoryService
      */
-    private $userService;
+    private $storyService;
 
     /**
      * SetUp
@@ -35,28 +35,27 @@ class UserControllerTest extends ControllerTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->userService = $this->getMockBuilder('RemokerBundle\Service\UserService')
+        $this->storyService = $this->getMockBuilder('RemokerBundle\Service\StoryService')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->userController = new UserController();
-        $this->userController->setUserService($this->userService);
+        $this->storyController = new StoryController();
+        $this->storyController->setStoryService($this->storyService);
     }
 
     /**
      * @dataProvider invalidNameProvider
      *
-     * @param string $masterName Master name
+     * @param string $storyName Story name
      * @return void
      */
-    public function testInvalidUsernameSet($masterName)
+    public function testInvalidStorynameSet($storyName)
     {
 
-        $this->data->user->name = $masterName;
-        $this->data->user->is_master = true;
+        $this->data->story->name = $storyName;
         $this->data = array(json_encode($this->data));
         try {
-            $this->userController->createUserAction($this->wampConnection, $this->wampRequest, $this->data);
+            $this->storyController->createStoryAction($this->wampConnection, $this->wampRequest, $this->data);
         } catch (\Exception $e) {
             $this->assertEquals("invalid_name", $e->getMessage());
         }
@@ -70,11 +69,9 @@ class UserControllerTest extends ControllerTestCase
     public function invalidNameProvider()
     {
         return array(
-            array('John Doe½'),
-            array('john doe$'),
-            array('J&ohn Doe'),
-            array('John Doe John Doe John Doe John Doe'),
-            array('',)
+            array('Story½'),
+            array('Story$'),
+            array('Story Story Story Story Story Story'),
         );
     }
 
@@ -82,13 +79,13 @@ class UserControllerTest extends ControllerTestCase
      * @return void
      * @throws \Exception
      */
-    public function testNoUsernameSet()
+    public function testNoStorynameSet()
     {
         $this->data = array(json_encode($this->data));
         try {
-            $this->userController->createUserAction($this->wampConnection, $this->wampRequest, $this->data);
+            $this->storyController->createStoryAction($this->wampConnection, $this->wampRequest, $this->data);
         } catch (\Exception $e) {
-            $this->assertEquals("missing_username", $e->getMessage());
+            $this->assertEquals("missing_storyname", $e->getMessage());
         }
     }
 
@@ -96,19 +93,18 @@ class UserControllerTest extends ControllerTestCase
     /**
      * @dataProvider validNameProvider
      *
-     * @param string $masterName Master name
+     * @param string $storyName Story name
      * @return void
      */
-    public function testValidUsernameSet($masterName)
+    public function testValidStorynameSet($storyName)
     {
-        $this->userService->expects($this->once())
-            ->method('createUser')
-            ->will($this->returnValue($masterName));
-        $this->userController->setUserService($this->userService);
-        $this->data->user->name = $masterName;
-        $this->data->user->is_master = true;
+        $this->storyService->expects($this->once())
+            ->method('createStory')
+            ->will($this->returnValue($storyName));
+        $this->storyController->setStoryService($this->storyService);
+        $this->data->story->name = $storyName;
         $this->data = array(json_encode($this->data));
-        $this->userController->createUserAction($this->wampConnection, $this->wampRequest, $this->data);
+        $this->storyController->createStoryAction($this->wampConnection, $this->wampRequest, $this->data);
     }
 
     /**
@@ -121,7 +117,7 @@ class UserControllerTest extends ControllerTestCase
         return array(
             array('John Doe'),
             array('john doe'),
-            array('John-John Doe',)
+            array('John-John Doe')
         );
     }
 
@@ -133,14 +129,14 @@ class UserControllerTest extends ControllerTestCase
      */
     public function testInvalidIdSet($id)
     {
-        $this->data->user->id = $id;
+        $this->data->story->id = $id;
         $this->data = array(json_encode($this->data));
         try {
-            $this->userController->getUserAction($this->wampConnection, $this->wampRequest, $this->data);
+            $this->storyController->getStoryAction($this->wampConnection, $this->wampRequest, $this->data);
         } catch (AlnumException $e) {
             $this->assertEquals("invalid_identifier", $e->getMessage());
         } catch (\Exception $e) {
-            $this->assertEquals("missing_userid", $e->getMessage());
+            $this->assertEquals("missing_storyid", $e->getMessage());
         }
     }
 
@@ -164,12 +160,12 @@ class UserControllerTest extends ControllerTestCase
      */
     public function testValidIdSet()
     {
-        $this->userService->expects($this->once())
-            ->method('getUser')
+        $this->storyService->expects($this->once())
+            ->method('getStory')
             ->will($this->returnValue('id'));
-        $this->userController->setUserService($this->userService);
-        $this->data->user->id = "acb123";
+        $this->storyController->setStoryService($this->storyService);
+        $this->data->story->id = "acb123";
         $this->data = array(json_encode($this->data));
-        $this->userController->getUserAction($this->wampConnection, $this->wampRequest, $this->data);
+        $this->storyController->getStoryAction($this->wampConnection, $this->wampRequest, $this->data);
     }
 }

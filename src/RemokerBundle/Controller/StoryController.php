@@ -74,7 +74,7 @@ class StoryController extends AbstractRemokerController
     }
 
     /**
-     * Deletes all Estimations for a reestiamtion of the Story
+     * Deletes all Estimations for a reestimation of the Story
      *
      * @param WampConnection $connection WampConnection
      * @param WampRequest    $request    WampRequest
@@ -112,6 +112,16 @@ class StoryController extends AbstractRemokerController
         }
         $story = $this->storyService->setResult($parameters);
         return $this->serializer->serialize($story, 'json');
+    }
+
+    /**
+     * @param StoryService $storyService Story Service
+     * @return StoryController
+     */
+    public function setStoryService($storyService)
+    {
+        $this->storyService = $storyService;
+        return $this;
     }
 
     /**

@@ -72,6 +72,16 @@ class EstimationController extends AbstractRemokerController
     }
 
     /**
+     * @param EstimationService $estimationService Estimation service
+     * @return EstimationController
+     */
+    public function setEstimationService($estimationService)
+    {
+        $this->estimationService = $estimationService;
+        return $this;
+    }
+
+    /**
      * Registers this controller as a RPC callback at the WAMP router (config/routing.yml)
      *
      * @return string

@@ -4,8 +4,11 @@
  */
 namespace RemokerBundle\Test\Controller;
 
+use Gos\Bundle\WebSocketBundle\Router\WampRequest;
+use Ratchet\Wamp\WampConnection;
+
 /**
- * Trait ControllerTestCase
+ * Class ControllerTestCase
  *
  * @package RemokerBundle\Test\Controller
  * @author  Samuel Heinzmann <samuel.heinzman@swisscom.com>
@@ -14,57 +17,29 @@ namespace RemokerBundle\Test\Controller;
  */
 class ControllerTestCase extends \PHPUnit_Framework_TestCase
 {
-    protected $abstractRemokerController;
 
+    /**
+     * @var \stdClass
+     */
     protected $data;
 
-    protected $documentManager;
-
+    /**
+     * @var WampConnection
+     */
     protected $wampConnection;
 
+    /**
+     * @var WampRequest
+     */
     protected $wampRequest;
 
-    protected $managerRegistry;
-
-    protected $doctrineService;
-
+    /**
+     * SetUp for all Controller tests
+     *
+     * @return void
+     */
     public function setUp()
     {
-        $this->doctrineService = $this->getMockBuilder('RemokerBundle\Service\DoctrineService')
-//            ->disableOriginalConstructor()
-            ->setMethods(array('persist'))
-            ->getMock();
-        $this->doctrineService->expects($this->once())
-            ->method('persist');
-
-//        $this->doctrineService->method('persist')->willReturn('foo');
-
-//        $this->managerRegistry = $this->getMockBuilder('Doctrine\Bundle\MongoDBBundle\ManagerRegistry')
-//            ->disableOriginalConstructor()
-//            ->getMock();
-
-//        $this->abstractRemokerController = $this->getMockForAbstractClass(
-//            'RemokerBundle\Controller\AbstractRemokerController'
-//        );
-
-//        $this->abstractRemokerController = $this->getMockBuilder('RemokerBundle\Controller\AbstractRemokerController')
-//            ->setMethods(array('persist'))
-//            ->getMockForAbstractClass();
-//        $this->abstractRemokerController->expects($this->once())
-//            ->method('persist');
-
-//        $this->remokerController->setManagerRegistry($this->managerRegistry);
-
-//        $this->documentManager = $this->getMockBuilder('DocumentManager')
-//            ->setMethods(array('persist', 'flush'))
-//            ->disableOriginalConstructor()
-//            ->getMock();
-//        $this->documentManager->expects($this->once())
-//            ->method('persist')
-//            ->with($this->equalTo(null));
-//        $this->documentManager->expects($this->once())
-//            ->method('flush');
-
         $this->wampConnection = $this->getMockBuilder('Ratchet\Wamp\WampConnection')
             ->disableOriginalConstructor()
             ->getMock();
@@ -75,5 +50,8 @@ class ControllerTestCase extends \PHPUnit_Framework_TestCase
 
         $this->data = new \stdClass();
         $this->data->user = new \stdClass();
+        $this->data->estimation = new \stdClass();
+        $this->data->story = new \stdClass();
+        $this->data->room = new \stdClass();
     }
 }

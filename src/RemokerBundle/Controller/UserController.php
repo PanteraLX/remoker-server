@@ -6,6 +6,7 @@ namespace RemokerBundle\Controller;
 
 use Exception;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
+use JMS\Serializer\Serializer;
 use Ratchet\Wamp\WampConnection;
 use RemokerBundle\Service\UserService;
 
@@ -69,6 +70,16 @@ class UserController extends AbstractRemokerController
         }
         $user = $this->userService->getUser($parameters);
         return $this->serializer->serialize($user, "json");
+    }
+
+    /**
+     * @param UserService $userService User service
+     * @return UserController
+     */
+    public function setUserService($userService)
+    {
+        $this->userService = $userService;
+        return $this;
     }
 
     /**

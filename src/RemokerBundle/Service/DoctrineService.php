@@ -9,7 +9,6 @@ namespace RemokerBundle\Service;
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
 use Doctrine\ODM\MongoDB\DocumentNotFoundException;
 use RemokerBundle\RemokerBundle;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class DoctrineService
@@ -22,13 +21,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class DoctrineService
 {
     /**
-     * Symfony Dependency Injection Container
-     *
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
      * Doctrine ODM ManagerRegistry
      *
      * @var ManagerRegistry
@@ -40,7 +32,7 @@ class DoctrineService
      */
     public function __construct()
     {
-        $this->container = RemokerBundle::getContainer();
+        $this->managerRegistry = RemokerBundle::getContainer()->get("doctrine_mongodb");
     }
 
     /**
@@ -51,7 +43,6 @@ class DoctrineService
      */
     public function persist($object)
     {
-        $this->managerRegistry = $this->container->get("doctrine_mongodb");
         $this->managerRegistry->getManager()->persist($object);
         $this->managerRegistry->getManager()->flush();
     }
@@ -68,7 +59,6 @@ class DoctrineService
      */
     public function find($id, $repository)
     {
-        $this->managerRegistry = $this->container->get("doctrine_mongodb");
         $object = $this->managerRegistry
             ->getRepository("RemokerBundle:" . $repository)
             ->find($id);

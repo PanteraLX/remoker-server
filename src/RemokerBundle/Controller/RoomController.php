@@ -105,6 +105,18 @@ class RoomController extends AbstractRemokerController
     }
 
     /**
+     * Setter for RoomService
+     *
+     * @param RoomService $roomService Room Service
+     * @return RoomController
+     */
+    public function setRoomService($roomService)
+    {
+        $this->roomService = $roomService;
+        return $this;
+    }
+
+    /**
      * Registers this controller as a RPC callback at the WAMP router (config/routing.yml)
      *
      * @return string
