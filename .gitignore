@@ -15,7 +15,6 @@ var/logs/.gitkeep
 /app/config/parameters.ini
 
 # Managed by Composer
-/composer.lock
 /app/bootstrap.php.cache
 /var/bootstrap.php.cache
 /bin/*
