@@ -46,7 +46,7 @@ class StoryController extends AbstractRemokerController
         if (!isset($parameters->story->name)) {
             throw new Exception("missing_storyname");
         } else {
-            $this->nameValidator->validate($parameters->story->name);
+            $this->nameValidator->validate($parameters->story->name, 255);
         }
         $story = $this->storyService->createStory($parameters);
         return $this->serializer->serialize($story, "json");
